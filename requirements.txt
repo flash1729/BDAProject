@@ -1,0 +1,9 @@
+# Python 3.11 recommended (tested with 3.11 on macOS arm64)
+tensorflow>=2.16,<2.21
+scikit-surprise>=1.1.4
+numpy>=1.26
+pandas>=2.1
+pyarrow>=14
+scikit-learn>=1.4
+pytest>=8
+# optional, Apple Silicon GPU (used automatically if installed): tensorflow-metal

@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deep Multi-Criteria CF Reproduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column (lab-notebook report) with wide figures and tables allowed to scroll inside their own frames. */
+:root {
+  --bg: #f7f8f6;
+  --surface: #ffffff;
+  --ink: #15211c;
+  --ink-2: #4a5852;
+  --ink-3: #75837d;
+  --rule: #dfe5e1;
+  --rule-2: #eef2ef;
+  --accent: #116b52;
+  --accent-soft: #e3f1ec;
+  --s1: #2a78d6;  /* ours */
+  --s2: #eb6834;  /* paper / single DNN */
+  --s3: #1baf7a;  /* SVD */
+  --bad: #c2362f;
+  --bad-soft: #fbe9e7;
+  --good: #1f7a3a;
+  --good-soft: #e5f3e8;
+  --warn-soft: #fdf3dc;
+  --warn: #8a5a00;
+  --f-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111715; --surface: #18201d; --ink: #e9efec; --ink-2: #b4c1bb; --ink-3: #8b9993;
+    --rule: #2c3833; --rule-2: #212a26; --accent: #4cc39b; --accent-soft: #17302a;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+    --bad: #f07a72; --bad-soft: #3a1d1b; --good: #6fcf87; --good-soft: #17301f;
+    --warn-soft: #33290f; --warn: #e6b34d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111715; --surface: #18201d; --ink: #e9efec; --ink-2: #b4c1bb; --ink-3: #8b9993;
+  --rule: #2c3833; --rule-2: #212a26; --accent: #4cc39b; --accent-soft: #17302a;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+  --bad: #f07a72; --bad-soft: #3a1d1b; --good: #6fcf87; --good-soft: #17301f;
+  --warn-soft: #33290f; --warn: #e6b34d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; padding-inline: 20px; padding-block: 0 64px; }
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 650; text-wrap: balance; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: clamp(24px, 3.4vw, 30px); }
+h3 { font-size: 19px; font-family: var(--f-body); font-weight: 700; letter-spacing: 0; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+code { background: var(--rule-2); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+section { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.sec-head { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--rule); padding-top: 28px; }
+.lede { font-size: 19px; color: var(--ink-2); }
+.muted { color: var(--ink-3); }
+.small { font-size: 14px; }
+
+/* header */
+header { padding-top: 48px; display: flex; flex-direction: column; gap: 16px; }
+.cite { font-size: 15px; color: var(--ink-2); border-left: 3px solid var(--accent); padding-left: 14px; max-width: 70ch; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 15px; }
+.toc a { text-decoration: none; border-bottom: 1px solid var(--rule); color: var(--ink-2); }
+.toc a:hover, .toc a:focus-visible { color: var(--accent); border-color: var(--accent); }
+
+/* verdict strip */
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.vcard { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.vcard .k { font-size: 13px; color: var(--ink-3); }
+.vcard .v { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.vcard .d { font-size: 14px; color: var(--ink-2); }
+
+/* pills */
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { background: var(--good-soft); color: var(--good); }
+.pill.no { background: var(--bad-soft); color: var(--bad); }
+.pill.mid { background: var(--warn-soft); color: var(--warn); }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--rule-2); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; background: var(--rule-2); }
+tbody tr:last-child td { border-bottom: 0; }
+td .pm { color: var(--ink-3); font-size: 13px; }
+tr.hl td { background: var(--accent-soft); font-weight: 600; }
+td.pos { color: var(--bad); }
+td.neg { color: var(--good); }
+.caption { font-size: 14px; color: var(--ink-3); }
+
+/* pipeline diagram */
+.flow { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.stage { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; grid-template-columns: 120px 1fr; gap: 6px 16px; align-items: start; }
+.stage .tag { font-family: var(--f-mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; padding-top: 3px; }
+.stage .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stage .body b { font-weight: 700; }
+.arrow { text-align: center; color: var(--ink-3); font-family: var(--f-mono); font-size: 13px; line-height: 1; }
+.layers { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--f-mono); font-size: 13px; }
+.layers span { background: var(--rule-2); border-radius: 5px; padding: 2px 8px; }
+.layers i { font-style: normal; color: var(--ink-3); }
+@media (max-width: 560px) { .stage { grid-template-columns: 1fr; } }
+
+/* two-column notes */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.note { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.note p { font-size: 15.5px; }
+ul.clean { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 70ch; }
+ol.steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; max-width: 72ch; }
+.callout { background: var(--warn-soft); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.callout h3 { color: var(--warn); }
+
+/* charts */
+.chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 16px 10px; display: flex; flex-direction: column; gap: 10px; position: relative; min-width: 0; }
+.chart-title { font-weight: 700; font-size: 16px; }
+.chart-sub { font-size: 14px; color: var(--ink-3); margin-top: -6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.sw.ring { background: transparent; border: 2px solid; }
+.svgbox { overflow-x: auto; }
+svg text { font-family: var(--f-body); }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 13px; padding: 6px 9px; border-radius: 6px; line-height: 1.35; white-space: nowrap; font-variant-numeric: tabular-nums; z-index: 5; }
+.tip[hidden] { display: none !important; }
+details { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px; }
+details summary { cursor: pointer; font-weight: 600; font-size: 15px; color: var(--ink-2); }
+details[open] summary { margin-bottom: 10px; }
+pre.cmd { margin: 0; background: var(--rule-2); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.6; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Reproduction report · TripAdvisor hotels · 5 × 5-fold CV</div>
+  <h1>Reproducing the deep multi-criteria collaborative filtering model</h1>
+  <p class="cite">Nassar, Jafar &amp; Rahhal, <i>A novel deep multi-criteria collaborative filtering model for recommendation system</i>, Knowledge-Based Systems 187 (2020) 104811, doi:10.1016/j.knosys.2019.06.019.</p>
+  <p class="lede">This page covers the problem the paper set out to solve and how the model works. It then describes how it was rebuilt from scratch on the same dataset, what came out, and which of the paper's claims hold up.</p>
+  <nav class="toc" aria-label="Sections">
+    <a href="#problem">The problem</a>
+    <a href="#model">The model</a>
+    <a href="#data">The data</a>
+    <a href="#method">How it was tested</a>
+    <a href="#build">What was built</a>
+    <a href="#results">Results</a>
+    <a href="#findings">Findings</a>
+    <a href="#run">Running it</a>
+  </nav>
+</header>
+
+<section aria-label="Verdict">
+  <div class="verdict">
+    <div class="vcard"><span class="k">Our model, overall-rating MAE</span><span class="v">0.7693</span><span class="d">paper 0.7552 · best of all 7 methods</span></div>
+    <div class="vcard"><span class="k">Beats the Single DNN on MAE</span><span class="v">24 / 25</span><span class="d">folds, and SVD in 24 / 25</span></div>
+    <div class="vcard"><span class="k">Baselines vs the paper</span><span class="v">±0.002</span><span class="d">MAE, F1, F2 match to ~3 decimals</span></div>
+    <div class="vcard"><span class="k">Criteria-net restarts</span><span class="v">9 / 25</span><span class="d">runs had a dead output unit</span></div>
+  </div>
+  <p><span class="pill ok">Reproduced</span> The paper's main claim holds: the two-stage model has the lowest MAE of every method tested, ahead of a single network and five classic algorithms. <span class="pill mid">Partly</span> It wins F1 but not F2. <span class="pill no">Not reproduced</span> The paper's MAP and FCP values can't be matched by any method, baselines included, so the paper most likely computed them differently from the equations it prints.</p>
+</section>
+
+<section id="problem">
+  <div class="sec-head">
+    <span class="eyebrow">1 · Problem statement</span>
+    <h2>Why rate a hotel on seven things instead of one?</h2>
+  </div>
+  <p>Most recommender systems learn from one number: the star rating a user gave an item. That number hides <i>why</i> the user liked it. Two people can both give a hotel 4 stars, one for the location and the other for the service. TripAdvisor asks reviewers for an overall rating and for seven criteria: value, rooms, location, cleanliness, check-in/front desk, service and business service.</p>
+  <p>The paper asks whether a neural network can use those extra criteria to predict the overall rating better than single-rating methods can. It follows the classic <b>aggregation-function approach</b> (Adomavicius &amp; Kwon, 2007) in three steps:</p>
+  <ol class="steps">
+    <li><b>Predict the criteria.</b> For a user and a hotel they haven't rated, predict all seven criteria ratings.</li>
+    <li><b>Learn how criteria combine.</b> Learn a function <i>f</i> with overall = <i>f</i>(value, rooms, …, business).</li>
+    <li><b>Predict the overall rating.</b> Feed the predicted criteria through <i>f</i>, then rank hotels for the user by that predicted overall rating.</li>
+  </ol>
+  <p>The paper's contribution is to use a deep neural network for both step 1 and step 2. It reports beating SVD, SVD++, SlopeOne, baseline estimates, KNN-with-baseline and a single end-to-end neural network on every metric.</p>
+  <div class="note">
+    <h3>The task, in one line</h3>
+    <p>Rebuild the model exactly as described in Sections 3 and 4.3, train and evaluate it the paper's way on the same TripAdvisor data, and report how our numbers compare with Tables 1, 2, 5 and 6.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="sec-head">
+    <span class="eyebrow">2 · The model</span>
+    <h2>Two networks, trained apart, chained at prediction time</h2>
+  </div>
+  <p>The two networks never see each other during training. Net 1 learns to predict the seven true criteria from a user and a hotel. Net 2 learns to map the true criteria to the true overall rating. Only at prediction time does net 1's output feed net 2.</p>
+  <div class="flow" role="img" aria-label="Pipeline: user and hotel IDs go into the criteria DNN, which outputs seven predicted criteria; these are standardised and fed to the overall DNN, which outputs the predicted overall rating.">
+    <div class="stage"><span class="tag">Input</span><div class="body"><b>User ID + hotel ID</b><span class="muted small">Pure collaborative filtering: no text and no hotel metadata, just who rated what.</span></div></div>
+    <div class="arrow" aria-hidden="true">↓</div>
+    <div class="stage"><span class="tag">Net 1</span><div class="body"><b>Criteria ratings DNN</b>
+      <div class="layers"><span>Embed user 64</span><span>Embed hotel 64</span><i>→ concat 128 →</i><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><i>→</i><span>7 outputs</span></div>
+      <span class="muted small">ReLU on every layer, including the output. Trained on (user, hotel) → the 7 true criteria.</span></div></div>
+    <div class="arrow" aria-hidden="true">↓ 7 predicted criteria → z-score (mean and std from the training fold only)</div>
+    <div class="stage"><span class="tag">Net 2</span><div class="body"><b>Overall rating DNN</b>
+      <div class="layers"><span>7 inputs</span><i>→</i><span>64</span><span>32</span><span>16</span><span>8</span><i>→</i><span>1 output</span></div>
+      <span class="muted small">Trained separately on the true criteria → the true overall rating.</span></div></div>
+    <div class="arrow" aria-hidden="true">↓</div>
+    <div class="stage"><span class="tag">Output</span><div class="body"><b>Predicted overall rating</b><span class="muted small">Used to rank each user's hotels.</span></div></div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Setting (paper §4.3)</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Weight initialisation</td><td>Normal, mean 0, std 0.05</td></tr>
+        <tr><td>Optimiser</td><td>Adam, learning rate 0.001</td></tr>
+        <tr><td>Loss</td><td>Mean absolute error</td></tr>
+        <tr><td>Batch size</td><td>512</td></tr>
+        <tr><td>Single DNN baseline</td><td>Embeddings 256, layers 512→256→128→64→32→16→8, 1 output</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="data">
+  <div class="sec-head">
+    <span class="eyebrow">3 · The data</span>
+    <h2>81,052 reviews, almost all from one-time reviewers</h2>
+  </div>
+  <p>The data is Hongning Wang's LARA TripAdvisor crawl: one text file per hotel, each holding blocks tagged <code>&lt;Author&gt;</code>, <code>&lt;Content&gt;</code>, <code>&lt;Date&gt;</code> and <code>&lt;Rating&gt;</code>. The rating line holds 8 tab-separated numbers, with <code>-1</code> meaning "not given". The parser splits on the tags rather than on blank lines, so stray carriage returns inside review text don't break it.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Filter step (in order)</th><th>Reviews left</th><th>Removed</th></tr></thead>
+      <tbody>
+        <tr><td>Parsed from 1,850 hotel files</td><td>246,399</td><td>—</td></tr>
+        <tr><td>1. Rating line has exactly 8 values</td><td>246,399</td><td>0</td></tr>
+        <tr class="hl"><td>2. No −1 or 0 in any rating</td><td>81,085</td><td>165,314</td></tr>
+        <tr><td>3. Drop "A TripAdvisor Member" (anonymous)</td><td>81,085</td><td>0</td></tr>
+        <tr><td>4. One review per (user, hotel)</td><td>81,052</td><td>33</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="caption">After step 2 the count is exactly the paper's 81,085. All 39,129 anonymous reviews were missing at least one criterion, so step 2 had already removed them. The 33 duplicates are genuine repeat stays (same user and hotel, different dates and review text); the paper evidently kept them.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Table 1</th><th>Paper</th><th>Ours</th><th>Difference</th></tr></thead>
+      <tbody>
+        <tr><td>Users</td><td>72,119</td><td>72,119</td><td>0</td></tr>
+        <tr><td>Hotels</td><td>1,850</td><td>1,850</td><td>0</td></tr>
+        <tr><td>Ratings</td><td>81,085</td><td>81,052</td><td>−33</td></tr>
+        <tr><td>Sparsity</td><td>99.94%</td><td>99.939%</td><td>−0.0007 pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><b>What this means for modelling:</b> 72,119 users wrote 81,052 reviews, about 1.1 each. When a user lands in the test set, the model has usually never seen them. Their learned embedding is random noise, so the model falls back on what it knows about the hotel. This is the main reason every method's error sits near 0.77–0.82.</p>
+  <details>
+    <summary>Table 2: rating distribution per criterion (ours; paper differences are 0 to −24 per cell)</summary>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Criterion</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody>
+          <tr><td>Value</td><td>4,267</td><td>5,851</td><td>10,373</td><td>24,687</td><td>35,874</td></tr>
+          <tr><td>Rooms</td><td>4,001</td><td>5,515</td><td>10,492</td><td>25,007</td><td>36,037</td></tr>
+          <tr><td>Location</td><td>1,464</td><td>3,141</td><td>8,499</td><td>22,170</td><td>45,778</td></tr>
+          <tr><td>Cleanliness</td><td>2,590</td><td>3,584</td><td>8,232</td><td>19,942</td><td>46,704</td></tr>
+          <tr><td>Check-in / front desk</td><td>3,774</td><td>4,467</td><td>11,081</td><td>19,195</td><td>42,535</td></tr>
+          <tr><td>Service</td><td>4,085</td><td>4,462</td><td>10,034</td><td>20,108</td><td>42,363</td></tr>
+          <tr><td>Business service</td><td>4,525</td><td>5,849</td><td>19,619</td><td>21,652</td><td>29,407</td></tr>
+          <tr><td>Overall</td><td>4,245</td><td>6,051</td><td>8,077</td><td>24,170</td><td>38,509</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<section id="method">
+  <div class="sec-head">
+    <span class="eyebrow">4 · Evaluation protocol</span>
+    <h2>25 train/test runs and six metrics</h2>
+  </div>
+  <p>Following the paper: 5-fold cross-validation, repeated 5 times with different shuffles, for 25 runs in all. Each run trains on 80% of the ratings, of which 1% is held out to decide when to stop training, and tests on the other 20%. Every number reported here is the mean ± sample standard deviation over those 25 runs. All seven methods use exactly the same splits.</p>
+  <div class="grid2">
+    <div class="note"><h3>Error</h3><p><b>MAE</b>: the average gap between predicted and true overall stars. Lower is better.</p></div>
+    <div class="note"><h3>Top-K quality (K = 10)</h3><p><b>F1 / F2</b>: precision and recall of each user's top-10 test hotels; F2 weights recall more. A hotel is <i>relevant</i> when its true overall rating is 4 or 5.</p></div>
+    <div class="note"><h3>Ordering</h3><p><b>FCP</b>: for each user's pairs of test hotels, the share that the model puts in the right order. Ties count against the model.</p></div>
+    <div class="note"><h3>Ranking</h3><p><b>MAP</b>: how high relevant hotels sit in the top 10. <b>MRR</b>: 1 / rank of the first relevant hotel.</p></div>
+  </div>
+  <div class="callout">
+    <h3>The paper leaves three things unstated</h3>
+    <p>It doesn't give K, the relevance cut-off, or what counts as "recommended". We used K = 10 and relevant = 4+ stars, both adjustable flags. For "recommended", the published numbers only make sense one way. They are consistent with the <code>surprise</code> library's precision/recall recipe from 2019: a hotel counts as recommended when it is in the top 10 <i>and</i> its predicted rating is at least 4. With that definition our baselines reproduce the paper's F1 and F2 almost exactly, which confirms it.</p>
+  </div>
+</section>
+
+<section id="build">
+  <div class="sec-head">
+    <span class="eyebrow">5 · Work done</span>
+    <h2>What was built</h2>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>File</th><th style="text-align:left">What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>data.py</code></td><td style="text-align:left; white-space:normal">Tag-based parser, the four filters with row counts, ID indexing, writes <code>data/ratings.parquet</code>, prints Tables 1 and 2 against the paper</td></tr>
+        <tr><td><code>model.py</code></td><td style="text-align:left; white-space:normal">Criteria DNN, overall DNN and Single DNN in Keras 3, exactly as in §3 and §4.3</td></tr>
+        <tr><td><code>metrics.py</code></td><td style="text-align:left; white-space:normal">MAE, F1/F2@K, FCP (eq. 14–18), MAP@K, MRR@K, computed per user over that user's test hotels</td></tr>
+        <tr><td><code>train.py</code></td><td style="text-align:left; white-space:normal">Repeated CV, early stopping, five <code>surprise</code> baselines, per-fold JSON plus saved predictions, resume, tables, ablation sweeps</td></tr>
+        <tr><td><code>run.sh</code></td><td style="text-align:left; white-space:normal">Runs training under <code>caffeinate -i nice -n 10</code> so the Mac stays awake and responsive; logs to <code>results/train.log</code></td></tr>
+        <tr><td><code>tests/</code></td><td style="text-align:left; white-space:normal">Parser test on a synthetic 3-review file (a −1 rating, an anonymous author, a stray <code>\r</code>), plus checks of the FCP and ranking maths</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Order of work</h3>
+  <ol class="steps">
+    <li><b>Data first.</b> Parsed and filtered the data and checked Tables 1 and 2 against the paper before training anything. Users and hotels match exactly.</li>
+    <li><b>Smoke test.</b> One fold, 2 epochs, end to end in about 20 seconds. Each baseline was then run once on a fold, which showed SVD matching the paper's MAE to the 4th decimal.</li>
+    <li><b>Full run.</b> 25 runs × 7 methods in 22 minutes on an M2 CPU.</li>
+    <li><b>Found a failure mode.</b> In one fold our model scored MAE 2.34 while the others were near 0.77. One of the network's seven outputs had "died" (see Findings).</li>
+    <li><b>Fixed and re-ran.</b> Added automatic re-initialisation for dead outputs and re-ran both neural models in 24 minutes. The baseline results were reused, since nothing about them changed.</li>
+  </ol>
+  <div class="grid2">
+    <div class="note"><h3>Choices the paper didn't specify</h3>
+      <ul class="clean small">
+        <li>Epochs: up to 50, keeping the best epoch on the 1% validation split (patience 5).</li>
+        <li>KNN-baseline is item-based. A user-based version would need a 72k × 72k similarity matrix, about 40 GB.</li>
+        <li>The <code>surprise</code> baselines train on the full 80%, since they need no validation split.</li>
+      </ul></div>
+    <div class="note"><h3>Reproducibility</h3>
+      <ul class="clean small">
+        <li>Every seed is fixed (Python, NumPy, TensorFlow, fold shuffles), and TensorFlow runs in deterministic mode on CPU. Fold 1 gave identical numbers in two separate runs.</li>
+        <li>Results are saved per fold as each method finishes, so a killed run resumes where it stopped.</li>
+        <li>Test predictions are saved, so metrics can be recomputed with a different K without retraining.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="sec-head">
+    <span class="eyebrow">6 · Results</span>
+    <h2>Prediction error: the claim that holds</h2>
+  </div>
+
+  <div class="chart" id="maeChart">
+    <div class="chart-title">Overall-rating MAE by method, ours vs the paper</div>
+    <div class="chart-sub">Lower is better. Bars span ±1 sample std over 25 runs (ours) or the paper's reported std.</div>
+    <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Our run</span><span><i class="sw ring" style="border-color:var(--s2)"></i>Paper (Table 6)</span></div>
+    <div class="svgbox"><svg id="maeSvg" role="img" aria-label="Dot plot of MAE by method comparing our run with the paper"></svg></div>
+    <div class="tip" hidden></div>
+  </div>
+
+  <p>Our model has the lowest MAE of all seven methods, as in the paper. It is 0.014 behind the paper's own figure. Every baseline lands within 0.002 of its published number. Since the baselines match, the data and protocol are the same as the paper's, and the remaining gap belongs to the neural model itself.</p>
+
+  <h3>Table 6: every metric, every method</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Metric</th><th>Ours (2-stage)</th><th>Single DNN</th><th>SVD</th><th>SVD++</th><th>SlopeOne</th><th>Baseline</th><th>KNN-baseline</th></tr></thead>
+      <tbody id="t6"></tbody>
+    </table>
+  </div>
+  <p class="caption">Our value on top, the paper's below it in grey. Green marks the best method on each metric in our run. MAE: lower is better; everything else: higher is better.</p>
+
+  <h3>Which of the paper's claims hold</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Metric</th><th>Best baseline (ours)</th><th>Our model</th><th style="text-align:left">Paper: ours wins?</th><th style="text-align:left">Our run: ours wins?</th></tr></thead>
+      <tbody>
+        <tr><td>MAE</td><td>Single DNN 0.7913</td><td>0.7693</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill ok">Yes</span></td></tr>
+        <tr><td>F1</td><td>SlopeOne 0.8667</td><td>0.8676</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill ok">Yes, narrowly</span></td></tr>
+        <tr><td>F2</td><td>SlopeOne 0.9251</td><td>0.8666</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill no">No</span></td></tr>
+        <tr><td>FCP</td><td>Baseline 0.6923</td><td>0.6577</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill no">No</span></td></tr>
+        <tr><td>MAP</td><td>Baseline 0.7770</td><td>0.7768</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill mid">Tie</span></td></tr>
+        <tr><td>MRR</td><td>Baseline 0.7770</td><td>0.7768</td><td style="text-align:left">Yes</td><td style="text-align:left"><span class="pill mid">Tie</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Table 5: how well net 1 predicts each criterion</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Criterion</th><th>Paper MAE</th><th>Our MAE</th><th>Difference</th></tr></thead>
+      <tbody>
+        <tr><td>Value</td><td>0.8195 <span class="pm">± 0.0082</span></td><td>0.8500 <span class="pm">± 0.0091</span></td><td class="pos">+0.031</td></tr>
+        <tr><td>Rooms</td><td>0.7612 <span class="pm">± 0.0082</span></td><td>0.7998 <span class="pm">± 0.0103</span></td><td class="pos">+0.039</td></tr>
+        <tr><td>Location</td><td>0.6581 <span class="pm">± 0.0077</span></td><td>0.6891 <span class="pm">± 0.0095</span></td><td class="pos">+0.031</td></tr>
+        <tr><td>Cleanliness</td><td>0.6324 <span class="pm">± 0.0112</span></td><td>0.6778 <span class="pm">± 0.0112</span></td><td class="pos">+0.045</td></tr>
+        <tr><td>Check-in / front desk</td><td>0.7582 <span class="pm">± 0.0143</span></td><td>0.7920 <span class="pm">± 0.0098</span></td><td class="pos">+0.034</td></tr>
+        <tr><td>Service</td><td>0.7401 <span class="pm">± 0.0103</span></td><td>0.7799 <span class="pm">± 0.0099</span></td><td class="pos">+0.040</td></tr>
+        <tr><td>Business service</td><td>0.8774 <span class="pm">± 0.0053</span></td><td>0.9074 <span class="pm">± 0.0047</span></td><td class="pos">+0.030</td></tr>
+        <tr class="hl"><td>Mean</td><td>0.7495 <span class="pm">± 0.0073</span></td><td>0.7851 <span class="pm">± 0.0082</span></td><td class="pos">+0.036</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="caption">Every criterion is 0.03–0.045 worse than the paper, by a similar amount each. The ordering is the same: cleanliness and location are easiest to predict, business service hardest.</p>
+</section>
+
+<section id="findings">
+  <div class="sec-head">
+    <span class="eyebrow">7 · Findings</span>
+    <h2>What the run showed</h2>
+  </div>
+
+  <h3>Finding 1: the paper's output layer can silently break the model</h3>
+  <p>The paper puts a ReLU on the output layer. ReLU outputs <code>max(0, x)</code>, so if one output's input drifts negative for every hotel and user, that output is stuck at 0 and its gradient is 0. It can never recover. When that happens to, say, the "Value" output, net 2 receives Value = 0 stars for every test row and the overall prediction collapses.</p>
+
+  <div class="chart" id="foldChart">
+    <div class="chart-title">MAE of each of the 25 runs, before and after the fix</div>
+    <div class="chart-sub">Each dot is one train/test run. Hover a dot for its fold and what died.</div>
+    <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Our model</span><span><i class="sw" style="background:var(--s2)"></i>Single DNN</span><span><i class="sw" style="background:var(--s3)"></i>SVD (unaffected)</span></div>
+    <div class="svgbox"><svg id="foldSvg" role="img" aria-label="Strip plot of per-run MAE before and after the dead-unit fix for our model, the Single DNN and SVD"></svg></div>
+    <div class="tip" hidden></div>
+  </div>
+
+  <div class="grid2">
+    <div class="note"><h3>How often</h3><p>Net 1 lost an output in <b>9 of 25 runs</b>. One run needed 3 restarts. The Single DNN lost its only output in 2 runs. Net 2 never did. Before the fix, only 3 runs stood out clearly (MAE 2.34, 4.07, 4.07). The others were partial failures of 0.84–0.89 that looked plausible and quietly pulled the average up.</p></div>
+    <div class="note"><h3>The fix</h3><p>After training, if any output is 0 for every training row, the network is re-initialised with a new seed and retrained, up to 5 times. Every restart is logged and counted. The architecture is unchanged, and the same rule applies to the Single DNN so the comparison stays fair. With <code>--max-restarts 0</code> you get the paper's original behaviour.</p></div>
+  </div>
+
+  <h3>Finding 2: the criteria network learns everything in one epoch</h3>
+  <p>Early stopping picked <b>epoch 1 in all 25 runs</b>. Since almost every user appears once, the user embeddings memorise their single training review almost immediately, and validation error rises from epoch 2. This is likely why our results vary more than the paper's (std 0.017 vs 0.005; runs range 0.74–0.82 with no outliers). It also explains why dead outputs are common: the weights kept are from very early in training, before a struggling output has had time to recover.</p>
+
+  <h3>Finding 3: net 1 is the bottleneck</h3>
+  <p>Fed the <i>true</i> criteria, net 2 predicts the overall rating with MAE <b>0.269</b>. Given the real criteria, the overall star rating is very predictable. Nearly all of the chained model's 0.77 error comes from predicting the criteria for users the model has hardly seen.</p>
+
+  <h3>Finding 4: MAP and FCP don't match the paper for any method</h3>
+  <div class="grid2">
+    <div class="note"><h3>MAP ≈ MRR ≈ 0.777</h3><p>Most test users have exactly one test hotel. With one item, the paper's MAP formula (eq. 19) reduces to MRR, and both equal "is that hotel relevant?", which doesn't depend on the model. So every method scores the same. The paper's much lower MAP (0.30–0.46) must come from a variant it doesn't describe.</p></div>
+    <div class="note"><h3>FCP ≈ 0.66–0.69</h3><p>Higher than the paper's ~0.51 for every method, and computed exactly as eq. 14–18 define it. SlopeOne scores 0.05 because it predicts the same value for unseen users, and the paper counts ties as wrong. The paper's 0.51 ± 0.066 suggests it used a different tie rule.</p></div>
+  </div>
+  <p>These differences apply equally to the baselines, whose MAE, F1 and F2 otherwise match the paper. That points to the paper's metric code rather than to anything in our model or data.</p>
+</section>
+
+<section id="run">
+  <div class="sec-head">
+    <span class="eyebrow">8 · Running it</span>
+    <h2>Commands and outputs</h2>
+  </div>
+  <pre class="cmd">.venv/bin/python data.py              # parse, filter, print Tables 1–2
+.venv/bin/python -m pytest -q tests   # parser and metric tests
+.venv/bin/python train.py --smoke     # 1 fold, 2 epochs, ~20 s
+./run.sh                              # full 5×5 run, ~22 min on an M2
+./run.sh --resume                     # continue after a kill
+.venv/bin/python train.py --eval-only --k 5         # recompute tables with K=5
+.venv/bin/python train.py --ablation emb --repeats 1  # embedding-size sweep (Fig. 4)</pre>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Output</th><th style="text-align:left">Contents</th></tr></thead>
+      <tbody>
+        <tr><td><code>results/data_stats.md</code></td><td style="text-align:left">Tables 1 and 2 vs the paper</td></tr>
+        <tr><td><code>results/table5.csv</code></td><td style="text-align:left">Per-criterion MAE</td></tr>
+        <tr><td><code>results/table6.csv</code></td><td style="text-align:left">All metrics × all methods, with the paper's values</td></tr>
+        <tr><td><code>results/table6_paper_vs_ours.md</code></td><td style="text-align:left">Side-by-side comparison and notes</td></tr>
+        <tr><td><code>results/runs/main/</code></td><td style="text-align:left">Per-fold JSON, saved predictions, and the pre-fix table</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <h3>Not yet done</h3>
+    <ul class="clean small">
+      <li>The ablation sweeps (embedding size, hidden layers, optimiser; the paper's Fig. 4 and Tables 3–4) are built but haven't been run. They take about 5 minutes per configuration at one repeat.</li>
+      <li>Worth trying: a lower learning rate or a larger validation split for net 1, to see whether training past epoch 1 closes the 0.014 MAE gap to the paper and reduces dead outputs.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function () {
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+  /* ---------- Table 6 ---------- */
+  const methods = ["ours","single_dnn","svd","svdpp","slopeone","baselineonly","knn"];
+  const T6 = {
+    mae:  {ours:[0.7693,0.0170,0.7552],single_dnn:[0.7913,0.0074,0.7855],svd:[0.8059,0.0034,0.8071],svdpp:[0.8220,0.0032,0.8222],slopeone:[0.9151,0.0042,0.9160],baselineonly:[0.8097,0.0030,0.8094],knn:[0.8098,0.0030,0.8115]},
+    f1:   {ours:[0.8676,0.0075,0.8769],single_dnn:[0.8600,0.0088,0.8572],svd:[0.8381,0.0029,0.8370],svdpp:[0.8398,0.0028,0.8390],slopeone:[0.8667,0.0017,0.8666],baselineonly:[0.8394,0.0022,0.8391],knn:[0.8393,0.0022,0.8388]},
+    f2:   {ours:[0.8666,0.0179,0.9295],single_dnn:[0.8510,0.0204,0.9176],svd:[0.7970,0.0045,0.7951],svdpp:[0.8007,0.0048,0.7991],slopeone:[0.9251,0.0011,0.9248],baselineonly:[0.7990,0.0037,0.7986],knn:[0.7989,0.0037,0.7984]},
+    fcp:  {ours:[0.6577,0.0249,0.5126],single_dnn:[0.6703,0.0225,0.4957],svd:[0.6817,0.0282,0.5024],svdpp:[0.6798,0.0289,0.5092],slopeone:[0.0505,0.0163,0.5096],baselineonly:[0.6923,0.0293,0.5025],knn:[0.6904,0.0289,0.5097]},
+    map:  {ours:[0.7768,0.0029,0.4643],single_dnn:[0.7769,0.0029,0.4481],svd:[0.7770,0.0029,0.3935],svdpp:[0.7770,0.0029,0.3483],slopeone:[0.7758,0.0028,0.3006],baselineonly:[0.7770,0.0029,0.3881],knn:[0.7770,0.0029,0.3865]},
+    mrr:  {ours:[0.7768,0.0029,0.7664],single_dnn:[0.7769,0.0029,0.7244],svd:[0.7770,0.0029,0.7272],svdpp:[0.7770,0.0029,0.7513],slopeone:[0.7758,0.0028,0.7502],baselineonly:[0.7770,0.0029,0.7374],knn:[0.7770,0.0029,0.7360]}
+  };
+  const metricName = {mae:"MAE",f1:"F1",f2:"F2",fcp:"FCP",map:"MAP",mrr:"MRR"};
+  const tb = document.getElementById("t6");
+  for (const m of Object.keys(T6)) {
+    const vals = methods.map(k => T6[m][k][0]);
+    const best = m === "mae" ? Math.min(...vals) : Math.max(...vals);
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${metricName[m]}</td>` + methods.map(k => {
+      const [v, s, p] = T6[m][k];
+      const isBest = Math.abs(v - best) < 1e-9;
+      return `<td${isBest ? ' style="color:var(--good);font-weight:700"' : ""}>${v.toFixed(4)} <span class="pm">± ${s.toFixed(4)}</span><br><span class="pm">${p.toFixed(4)}</span></td>`;
+    }).join("");
+    tb.appendChild(tr);
+  }
+
+  /* ---------- tooltip helper ---------- */
+  function tipFor(chartId) {
+    const box = document.getElementById(chartId), tip = box.querySelector(".tip");
+    return {
+      show(html, evt) {
+        tip.innerHTML = html; tip.hidden = false;
+        const r = box.getBoundingClientRect();
+        let x = evt.clientX - r.left + 12, y = evt.clientY - r.top - 10 - tip.offsetHeight;
+        if (x + tip.offsetWidth > r.width - 4) x = evt.clientX - r.left - tip.offsetWidth - 12;
+        if (y < 4) y = evt.clientY - r.top + 16;
+        tip.style.left = x + "px"; tip.style.top = y + "px";
+      },
+      hide() { tip.hidden = true; }
+    };
+  }
+
+  /* ---------- MAE dot plot ---------- */
+  function drawMae() {
+    const svg = document.getElementById("maeSvg"); svg.innerHTML = "";
+    const tip = tipFor("maeChart");
+    const labels = {ours:"Ours (2-stage)",single_dnn:"Single DNN",svd:"SVD",svdpp:"SVD++",slopeone:"SlopeOne",baselineonly:"Baseline estimates",knn:"KNN-baseline"};
+    const pStd = {ours:0.0050,single_dnn:0.0153,svd:0.0043,svdpp:0.0071,slopeone:0.0053,baselineonly:0.0019,knn:0.0041};
+    const order = [...methods].sort((a,b) => T6.mae[a][0] - T6.mae[b][0]);
+    const W = Math.max(svg.parentElement.clientWidth, 520), L = 132, R = 24, rowH = 34, top = 8, H = top + rowH * order.length + 34;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", W); svg.setAttribute("height", H);
+    const x0 = 0.74, x1 = 0.93, sx = v => L + (v - x0) / (x1 - x0) * (W - L - R);
+    const grid = css("--rule-2"), ink2 = css("--ink-2"), ink3 = css("--ink-3"), surf = css("--surface");
+    for (let t = 0.75; t <= 0.9201; t += 0.025) {
+      el("line", {x1: sx(t), x2: sx(t), y1: top, y2: H - 26, stroke: grid, "stroke-width": 1}, svg);
+      const tx = el("text", {x: sx(t), y: H - 8, "text-anchor": "middle", "font-size": 12, fill: ink3}, svg); tx.textContent = t.toFixed(3);
+    }
+    order.forEach((k, i) => {
+      const y = top + rowH * i + rowH / 2, [v, s, p] = T6.mae[k];
+      const lb = el("text", {x: L - 12, y: y + 4, "text-anchor": "end", "font-size": 13.5, fill: k === "ours" ? css("--ink") : ink2, "font-weight": k === "ours" ? 700 : 400}, svg); lb.textContent = labels[k];
+      el("line", {x1: sx(p - pStd[k]), x2: sx(p + pStd[k]), y1: y + 6, y2: y + 6, stroke: css("--s2"), "stroke-width": 2, "stroke-linecap": "round", opacity: 0.55}, svg);
+      el("line", {x1: sx(v - s), x2: sx(v + s), y1: y - 6, y2: y - 6, stroke: css("--s1"), "stroke-width": 2, "stroke-linecap": "round", opacity: 0.55}, svg);
+      el("circle", {cx: sx(p), cy: y + 6, r: 5, fill: surf, stroke: css("--s2"), "stroke-width": 2.5}, svg);
+      el("circle", {cx: sx(v), cy: y - 6, r: 5.5, fill: css("--s1"), stroke: surf, "stroke-width": 2}, svg);
+      const hit = el("rect", {x: L, y: y - rowH / 2, width: W - L - R, height: rowH, fill: "transparent", tabindex: 0}, svg);
+      const html = `<b>${labels[k]}</b><br>Ours ${v.toFixed(4)} ± ${s.toFixed(4)}<br>Paper ${p.toFixed(4)} ± ${pStd[k].toFixed(4)}<br>Δ ${(v - p >= 0 ? "+" : "") + (v - p).toFixed(4)}`;
+      hit.addEventListener("mousemove", e => tip.show(html, e));
+      hit.addEventListener("mouseleave", () => tip.hide());
+    });
+    const ours = order.indexOf("ours"), yo = top + rowH * ours + rowH / 2;
+    const ann = el("text", {x: sx(T6.mae.ours[0] + T6.mae.ours[1]) + 8, y: yo - 2, "font-size": 12, fill: ink3}, svg); ann.textContent = "lowest MAE";
+  }
+
+  /* ---------- per-fold strip ---------- */
+  const before = {"r0_f0":[0.7518,0.7858],"r0_f1":[0.7953,0.7984],"r0_f2":[0.7397,0.78],"r0_f3":[2.338,0.7836],"r0_f4":[0.8219,0.802],"r1_f0":[0.879,4.068],"r1_f1":[0.7574,0.7836],"r1_f2":[0.7569,0.7898],"r1_f3":[0.8526,0.8034],"r1_f4":[0.7944,0.7992],"r2_f0":[0.8842,0.7899],"r2_f1":[0.7686,0.7995],"r2_f2":[0.7521,0.7891],"r2_f3":[0.7748,0.7826],"r2_f4":[0.8426,0.7869],"r3_f0":[0.8484,0.7889],"r3_f1":[0.7631,0.8052],"r3_f2":[0.7662,0.7835],"r3_f3":[0.7655,0.7982],"r3_f4":[0.7733,0.7881],"r4_f0":[0.7642,0.7958],"r4_f1":[0.8394,0.7872],"r4_f2":[0.7825,0.7971],"r4_f3":[0.8858,4.0744],"r4_f4":[0.7799,0.7862]};
+  const after = {"r0_f0":[0.7518,0.7858,0.8071,[],0],"r0_f1":[0.7953,0.7984,0.8108,[],0],"r0_f2":[0.7397,0.78,0.8013,[],0],"r0_f3":[0.7652,0.7836,0.7966,[[0]],0],"r0_f4":[0.8219,0.802,0.8126,[],0],"r1_f0":[0.7649,0.7843,0.8028,[[1]],1],"r1_f1":[0.7574,0.7836,0.8043,[],0],"r1_f2":[0.7569,0.7898,0.807,[],0],"r1_f3":[0.7547,0.8034,0.8064,[[1]],0],"r1_f4":[0.7944,0.7992,0.8081,[],0],"r2_f0":[0.7653,0.7899,0.8082,[[1],[2],[1]],0],"r2_f1":[0.7686,0.7995,0.806,[],0],"r2_f2":[0.7521,0.7891,0.8035,[],0],"r2_f3":[0.7604,0.7826,0.808,[[6]],0],"r2_f4":[0.7826,0.7869,0.8067,[[5]],0],"r3_f0":[0.7704,0.7889,0.8066,[[2]],0],"r3_f1":[0.7631,0.8052,0.8063,[],0],"r3_f2":[0.7662,0.7835,0.8023,[],0],"r3_f3":[0.7655,0.7982,0.8057,[],0],"r3_f4":[0.7733,0.7881,0.805,[],0],"r4_f0":[0.7642,0.7958,0.8107,[],0],"r4_f1":[0.7593,0.7872,0.8067,[[3]],0],"r4_f2":[0.7825,0.7971,0.8035,[],0],"r4_f3":[0.7767,0.7952,0.808,[[5]],1],"r4_f4":[0.7799,0.7862,0.8025,[],0]};
+  const critName = ["Value","Rooms","Location","Cleanliness","Check-in","Service","Business"];
+  const runName = t => `repeat ${+t[1] + 1}, fold ${+t[4] + 1}`;
+
+  function drawFolds() {
+    const svg = document.getElementById("foldSvg"); svg.innerHTML = "";
+    const tip = tipFor("foldChart");
+    const W = Math.max(svg.parentElement.clientWidth, 560), L = 120, R = 20, top = 22;
+    // piecewise x scale: 0.72–0.92 gets most of the width; a broken segment holds the collapsed runs (2–4.2)
+    const plotW = W - L - R, mainW = plotW * 0.78, gap = 18, brkW = plotW - mainW - gap;
+    const sx = v => v <= 0.92 ? L + (v - 0.72) / 0.2 * mainW : L + mainW + gap + (Math.min(v, 4.2) - 2.2) / 2.0 * brkW;
+    const rows = [
+      {label: "Before fix", key: "before"},
+      {label: "After fix", key: "after"}
+    ];
+    const series = [{i: 0, c: "--s1", n: "Our model"}, {i: 1, c: "--s2", n: "Single DNN"}, {i: 2, c: "--s3", n: "SVD"}];
+    const bandH = 92, H = top + bandH * 2 + 30;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", W); svg.setAttribute("height", H);
+    const grid = css("--rule-2"), ink2 = css("--ink-2"), ink3 = css("--ink-3"), surf = css("--surface");
+    for (const t of [0.74, 0.78, 0.82, 0.86, 0.90]) {
+      el("line", {x1: sx(t), x2: sx(t), y1: top - 6, y2: H - 26, stroke: grid, "stroke-width": 1}, svg);
+      const tx = el("text", {x: sx(t), y: H - 8, "text-anchor": "middle", "font-size": 12, fill: ink3}, svg); tx.textContent = t.toFixed(2);
+    }
+    for (const t of [2.5, 3.5]) {
+      el("line", {x1: sx(t), x2: sx(t), y1: top - 6, y2: H - 26, stroke: grid, "stroke-width": 1}, svg);
+      const tx = el("text", {x: sx(t), y: H - 8, "text-anchor": "middle", "font-size": 12, fill: ink3}, svg); tx.textContent = t.toFixed(1);
+    }
+    // axis break marker
+    const bx = L + mainW + gap / 2;
+    el("rect", {x: L + mainW + 3, y: top - 6, width: gap - 6, height: H - 26 - top + 6, fill: css("--rule-2")}, svg);
+    const bl = el("text", {x: bx, y: top - 10, "text-anchor": "middle", "font-size": 11, fill: ink3}, svg); bl.textContent = "axis break";
+    const lbt = el("text", {x: L + mainW + gap + brkW / 2, y: top - 10, "text-anchor": "middle", "font-size": 11, fill: ink3}, svg); lbt.textContent = "collapsed runs";
+
+    rows.forEach((row, ri) => {
+      const y0 = top + bandH * ri;
+      if (ri > 0) el("line", {x1: 0, x2: W, y1: y0, y2: y0, stroke: css("--rule"), "stroke-width": 1}, svg);
+      const t = el("text", {x: 0, y: y0 + bandH / 2 + 4, "font-size": 13.5, "font-weight": 700, fill: css("--ink")}, svg); t.textContent = row.label;
+      series.forEach((s, si) => {
+        const yy = y0 + 22 + si * 24;
+        const sl = el("text", {x: L - 10, y: yy + 4, "text-anchor": "end", "font-size": 12, fill: ink2}, svg); sl.textContent = s.n;
+        if (row.key === "before" && s.i === 2) { // SVD unchanged: reuse after values
+        }
+        for (const tag of Object.keys(after)) {
+          let v, dead = [], sr = 0;
+          if (row.key === "before") { v = s.i === 2 ? after[tag][2] : before[tag][s.i]; }
+          else { v = after[tag][s.i]; dead = s.i === 0 ? after[tag][3] : []; sr = s.i === 1 ? after[tag][4] : 0; }
+          const collapsed = v > 0.92;
+          const c = el("circle", {cx: sx(v), cy: yy, r: collapsed ? 6 : 4.5, fill: css(s.c), stroke: surf, "stroke-width": 2, opacity: collapsed ? 1 : 0.8, tabindex: 0}, svg);
+          let note = "";
+          if (row.key === "before" && s.i < 2) {
+            const fixed = after[tag][s.i];
+            if (Math.abs(fixed - v) > 0.0005) note = `<br>After fix: ${fixed.toFixed(4)}`;
+          }
+          if (dead.length) note += `<br>Restarted ${dead.length}×: ${dead.map(d => critName[d[0]]).join(", then ")} died`;
+          if (sr) note += `<br>Restarted ${sr}×: output died`;
+          const html = `<b>${s.n}</b> · ${runName(tag)}<br>MAE ${v.toFixed(4)}${note}`;
+          c.addEventListener("mousemove", e => tip.show(html, e));
+          c.addEventListener("mouseleave", () => tip.hide());
+        }
+      });
+    });
+  }
+
+  function draw() { drawMae(); drawFolds(); }
+  draw();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener && mq.addEventListener("change", draw);
+  new MutationObserver(draw).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
+})();
+</script>
+</body>
+</html>

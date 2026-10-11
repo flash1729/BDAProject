@@ -1,0 +1,10 @@
+{
+  "folds": 5,
+  "epochs": 50,
+  "patience": 5,
+  "seed": 42,
+  "val_frac": 0.01,
+  "ablation": null,
+  "data": "data/ratings.parquet",
+  "max_restarts": 5
+}

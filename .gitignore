@@ -1,0 +1,17 @@
+# environment
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+
+# raw LARA TripAdvisor dataset (third-party, 224 MB) - see README for where to put it
+Texts/
+hotel_*_parsed.txt
+
+# derived data (contains TripAdvisor usernames) - regenerate with `python data.py`
+data/
+
+# large / regenerable run artifacts
+results/runs/*/preds/
+results/runs/smoke_*/
+results/smoke/

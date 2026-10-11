@@ -1,0 +1,670 @@
+13:50:28 command: train.py
+13:50:34 TensorFlow 2.20.0 | device: CPU | intra-op threads: 6 | machine: Darwin arm64
+13:50:34 data: 81052 ratings, 72119 users, 1850 items
+13:50:35 methods: ours, single_dnn, svd, svdpp, slopeone, baselineonly, knn
+13:50:35 5 repeat(s) x 5 fold(s) = 25 fold run(s); 0 already complete, 25 to run
+13:50:35 [1/25] r0_f0  train=64193 val=648 test=16211
+13:50:47     ours           MAE 0.7518  F1 0.8717  F2 0.8723  FCP 0.6834  MAP 0.7815  MRR 0.7815  (0m12s)
+                   criteria MAE mean 0.7769 | net1 best epoch 1/6 | net2 best epoch 29/34 | net2 on true criteria MAE 0.2670
+13:51:19 5 out of the last 7 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x124ba82c0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+13:51:19 6 out of the last 8 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x124ba82c0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+13:51:19     single_dnn     MAE 0.7858  F1 0.8620  F2 0.8540  FCP 0.6865  MAP 0.7815  MRR 0.7815  (0m32s)
+13:51:20     svd            MAE 0.8071  F1 0.8368  F2 0.7953  FCP 0.6897  MAP 0.7815  MRR 0.7815  (0m00s)
+13:51:20     svdpp          MAE 0.8213  F1 0.8391  F2 0.8003  FCP 0.7053  MAP 0.7816  MRR 0.7816  (0m01s)
+13:51:20     slopeone       MAE 0.9159  F1 0.8690  F2 0.9255  FCP 0.0313  MAP 0.7799  MRR 0.7799  (0m00s)
+13:51:21     baselineonly   MAE 0.8104  F1 0.8385  F2 0.7977  FCP 0.7053  MAP 0.7816  MRR 0.7816  (0m00s)
+13:51:21     knn            MAE 0.8105  F1 0.8385  F2 0.7976  FCP 0.7022  MAP 0.7816  MRR 0.7816  (0m00s)
+13:51:21 [1/25] r0_f0 done in 0m46s | elapsed 0m46s | ETA 18m33s
+13:51:21 [2/25] r0_f1  train=64193 val=648 test=16211
+13:51:33     ours           MAE 0.7953  F1 0.8586  F2 0.8449  FCP 0.6597  MAP 0.7748  MRR 0.7749  (0m12s)
+                   criteria MAE mean 0.7841 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2844
+13:52:05     single_dnn     MAE 0.7984  F1 0.8475  F2 0.8264  FCP 0.6657  MAP 0.7750  MRR 0.7750  (0m33s)
+13:52:06     svd            MAE 0.8108  F1 0.8390  F2 0.7995  FCP 0.6448  MAP 0.7747  MRR 0.7748  (0m01s)
+13:52:06     svdpp          MAE 0.8279  F1 0.8394  F2 0.8026  FCP 0.6597  MAP 0.7749  MRR 0.7750  (0m00s)
+13:52:07     slopeone       MAE 0.9166  F1 0.8655  F2 0.9247  FCP 0.0239  MAP 0.7736  MRR 0.7736  (0m00s)
+13:52:07     baselineonly   MAE 0.8147  F1 0.8402  F2 0.8017  FCP 0.6507  MAP 0.7749  MRR 0.7749  (0m00s)
+13:52:07     knn            MAE 0.8150  F1 0.8401  F2 0.8016  FCP 0.6507  MAP 0.7749  MRR 0.7749  (0m00s)
+13:52:07 [2/25] r0_f1 done in 0m46s | elapsed 1m33s | ETA 17m46s
+13:52:07 [3/25] r0_f2  train=64194 val=648 test=16210
+13:52:21     ours           MAE 0.7397  F1 0.8728  F2 0.8774  FCP 0.6460  MAP 0.7776  MRR 0.7776  (0m14s)
+                   criteria MAE mean 0.7700 | net1 best epoch 1/6 | net2 best epoch 43/48 | net2 on true criteria MAE 0.2616
+13:52:53     single_dnn     MAE 0.7800  F1 0.8681  F2 0.8670  FCP 0.6962  MAP 0.7777  MRR 0.7777  (0m32s)
+13:52:54     svd            MAE 0.8013  F1 0.8386  F2 0.7970  FCP 0.6932  MAP 0.7778  MRR 0.7778  (0m01s)
+13:52:54     svdpp          MAE 0.8178  F1 0.8392  F2 0.7983  FCP 0.6873  MAP 0.7777  MRR 0.7777  (0m00s)
+13:52:55     slopeone       MAE 0.9099  F1 0.8668  F2 0.9258  FCP 0.0590  MAP 0.7769  MRR 0.7768  (0m00s)
+13:52:55     baselineonly   MAE 0.8050  F1 0.8398  F2 0.7984  FCP 0.7286  MAP 0.7779  MRR 0.7779  (0m00s)
+13:52:55     knn            MAE 0.8047  F1 0.8399  F2 0.7985  FCP 0.7257  MAP 0.7779  MRR 0.7779  (0m00s)
+13:52:55 [3/25] r0_f2 done in 0m48s | elapsed 2m21s | ETA 17m12s
+13:52:55 [4/25] r0_f3  train=64194 val=648 test=16210
+13:53:10     ours           MAE 2.3380  F1 0.3615  F2 0.2613  FCP 0.6308  MAP 0.7777  MRR 0.7777  (0m14s)
+                   criteria MAE mean 1.2359 | net1 best epoch 1/6 | net2 best epoch 45/50 | net2 on true criteria MAE 0.2646
+13:53:44     single_dnn     MAE 0.7836  F1 0.8558  F2 0.8387  FCP 0.6462  MAP 0.7779  MRR 0.7780  (0m34s)
+13:53:44     svd            MAE 0.7966  F1 0.8418  F2 0.8013  FCP 0.6738  MAP 0.7779  MRR 0.7779  (0m01s)
+13:53:45     svdpp          MAE 0.8135  F1 0.8405  F2 0.7992  FCP 0.7046  MAP 0.7782  MRR 0.7782  (0m00s)
+13:53:45     slopeone       MAE 0.9116  F1 0.8687  F2 0.9269  FCP 0.0585  MAP 0.7771  MRR 0.7772  (0m00s)
+13:53:45     baselineonly   MAE 0.8019  F1 0.8427  F2 0.8022  FCP 0.6677  MAP 0.7779  MRR 0.7779  (0m00s)
+13:53:46     knn            MAE 0.8023  F1 0.8425  F2 0.8019  FCP 0.6677  MAP 0.7779  MRR 0.7779  (0m00s)
+13:53:46 [4/25] r0_f3 done in 0m50s | elapsed 3m11s | ETA 16m43s
+13:53:46 [5/25] r0_f4  train=64194 val=648 test=16210
+13:54:00     ours           MAE 0.8219  F1 0.8476  F2 0.8270  FCP 0.6293  MAP 0.7728  MRR 0.7728  (0m14s)
+                   criteria MAE mean 0.8065 | net1 best epoch 1/6 | net2 best epoch 36/41 | net2 on true criteria MAE 0.2648
+13:54:35     single_dnn     MAE 0.8020  F1 0.8511  F2 0.8356  FCP 0.6724  MAP 0.7731  MRR 0.7731  (0m36s)
+13:54:36     svd            MAE 0.8126  F1 0.8350  F2 0.7932  FCP 0.7241  MAP 0.7732  MRR 0.7732  (0m01s)
+13:54:36     svdpp          MAE 0.8280  F1 0.8368  F2 0.7968  FCP 0.6839  MAP 0.7731  MRR 0.7731  (0m01s)
+13:54:37     slopeone       MAE 0.9197  F1 0.8641  F2 0.9237  FCP 0.0546  MAP 0.7718  MRR 0.7718  (0m00s)
+13:54:37     baselineonly   MAE 0.8156  F1 0.8367  F2 0.7957  FCP 0.7155  MAP 0.7731  MRR 0.7732  (0m00s)
+13:54:37     knn            MAE 0.8159  F1 0.8365  F2 0.7955  FCP 0.7069  MAP 0.7731  MRR 0.7731  (0m00s)
+13:54:37 [5/25] r0_f4 done in 0m52s | elapsed 4m03s | ETA 16m11s
+13:54:37 [6/25] r1_f0  train=64193 val=648 test=16211
+13:54:52     ours           MAE 0.8790  F1 0.8114  F2 0.7585  FCP 0.6619  MAP 0.7779  MRR 0.7779  (0m15s)
+                   criteria MAE mean 1.2491 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2651
+13:55:30     single_dnn     MAE 4.0680  F1 0.3619  F2 0.2617  FCP 0.0000  MAP 0.7764  MRR 0.7765  (0m38s)
+13:55:31     svd            MAE 0.8028  F1 0.8384  F2 0.7974  FCP 0.6441  MAP 0.7778  MRR 0.7778  (0m01s)
+13:55:31     svdpp          MAE 0.8194  F1 0.8406  F2 0.8027  FCP 0.6228  MAP 0.7777  MRR 0.7777  (0m01s)
+13:55:32     slopeone       MAE 0.9090  F1 0.8680  F2 0.9261  FCP 0.0427  MAP 0.7765  MRR 0.7765  (0m00s)
+13:55:32     baselineonly   MAE 0.8075  F1 0.8387  F2 0.7983  FCP 0.6441  MAP 0.7779  MRR 0.7779  (0m00s)
+13:55:32     knn            MAE 0.8072  F1 0.8385  F2 0.7981  FCP 0.6477  MAP 0.7779  MRR 0.7779  (0m00s)
+13:55:32 [6/25] r1_f0 done in 0m55s | elapsed 4m58s | ETA 15m43s
+13:55:32 [7/25] r1_f1  train=64193 val=648 test=16211
+13:55:46     ours           MAE 0.7574  F1 0.8645  F2 0.8568  FCP 0.6814  MAP 0.7796  MRR 0.7796  (0m13s)
+                   criteria MAE mean 0.7751 | net1 best epoch 1/6 | net2 best epoch 33/38 | net2 on true criteria MAE 0.2739
+13:56:22     single_dnn     MAE 0.7836  F1 0.8486  F2 0.8222  FCP 0.6785  MAP 0.7798  MRR 0.7798  (0m36s)
+13:56:23     svd            MAE 0.8043  F1 0.8338  F2 0.7895  FCP 0.7227  MAP 0.7801  MRR 0.7802  (0m01s)
+13:56:23     svdpp          MAE 0.8201  F1 0.8370  F2 0.7947  FCP 0.7257  MAP 0.7800  MRR 0.7800  (0m00s)
+13:56:23     slopeone       MAE 0.9105  F1 0.8671  F2 0.9246  FCP 0.0413  MAP 0.7787  MRR 0.7788  (0m00s)
+13:56:24     baselineonly   MAE 0.8081  F1 0.8361  F2 0.7929  FCP 0.7375  MAP 0.7801  MRR 0.7802  (0m00s)
+13:56:24     knn            MAE 0.8082  F1 0.8359  F2 0.7926  FCP 0.7375  MAP 0.7801  MRR 0.7802  (0m00s)
+13:56:24 [7/25] r1_f1 done in 0m52s | elapsed 5m49s | ETA 14m58s
+13:56:24 [8/25] r1_f2  train=64194 val=648 test=16210
+13:56:38     ours           MAE 0.7569  F1 0.8793  F2 0.8982  FCP 0.6598  MAP 0.7725  MRR 0.7726  (0m14s)
+                   criteria MAE mean 0.7807 | net1 best epoch 1/6 | net2 best epoch 36/41 | net2 on true criteria MAE 0.2571
+13:57:17     single_dnn     MAE 0.7898  F1 0.8552  F2 0.8405  FCP 0.6716  MAP 0.7727  MRR 0.7727  (0m39s)
+13:57:18     svd            MAE 0.8070  F1 0.8391  F2 0.7982  FCP 0.6864  MAP 0.7727  MRR 0.7728  (0m01s)
+13:57:19     svdpp          MAE 0.8256  F1 0.8376  F2 0.7978  FCP 0.6716  MAP 0.7728  MRR 0.7729  (0m00s)
+13:57:19     slopeone       MAE 0.9251  F1 0.8642  F2 0.9235  FCP 0.0680  MAP 0.7718  MRR 0.7718  (0m00s)
+13:57:19     baselineonly   MAE 0.8114  F1 0.8405  F2 0.8005  FCP 0.6893  MAP 0.7727  MRR 0.7727  (0m00s)
+13:57:19     knn            MAE 0.8115  F1 0.8404  F2 0.8004  FCP 0.6864  MAP 0.7727  MRR 0.7727  (0m00s)
+13:57:19 [8/25] r1_f2 done in 0m56s | elapsed 6m45s | ETA 14m20s
+13:57:19 [9/25] r1_f3  train=64194 val=648 test=16210
+13:57:36     ours           MAE 0.8526  F1 0.8402  F2 0.8072  FCP 0.6242  MAP 0.7793  MRR 0.7794  (0m17s)
+                   criteria MAE mean 1.2442 | net1 best epoch 1/6 | net2 best epoch 45/50 | net2 on true criteria MAE 0.2632
+13:58:21     single_dnn     MAE 0.8034  F1 0.8695  F2 0.8791  FCP 0.6846  MAP 0.7796  MRR 0.7796  (0m44s)
+13:58:22     svd            MAE 0.8064  F1 0.8394  F2 0.7989  FCP 0.6913  MAP 0.7795  MRR 0.7795  (0m02s)
+13:58:23     svdpp          MAE 0.8212  F1 0.8416  F2 0.8046  FCP 0.6846  MAP 0.7796  MRR 0.7796  (0m01s)
+13:58:24     slopeone       MAE 0.9097  F1 0.8686  F2 0.9265  FCP 0.0570  MAP 0.7786  MRR 0.7786  (0m01s)
+13:58:25     baselineonly   MAE 0.8101  F1 0.8402  F2 0.8005  FCP 0.7047  MAP 0.7797  MRR 0.7797  (0m01s)
+13:58:25     knn            MAE 0.8102  F1 0.8402  F2 0.8005  FCP 0.7013  MAP 0.7797  MRR 0.7797  (0m00s)
+13:58:25 [9/25] r1_f3 done in 1m06s | elapsed 7m51s | ETA 13m57s
+13:58:25 [10/25] r1_f4  train=64194 val=648 test=16210
+13:58:44     ours           MAE 0.7944  F1 0.8750  F2 0.8855  FCP 0.6519  MAP 0.7736  MRR 0.7736  (0m19s)
+                   criteria MAE mean 0.7927 | net1 best epoch 1/6 | net2 best epoch 14/19 | net2 on true criteria MAE 0.2967
+13:59:23     single_dnn     MAE 0.7992  F1 0.8606  F2 0.8505  FCP 0.6372  MAP 0.7734  MRR 0.7734  (0m39s)
+13:59:24     svd            MAE 0.8081  F1 0.8386  F2 0.7987  FCP 0.6991  MAP 0.7738  MRR 0.7739  (0m01s)
+13:59:25     svdpp          MAE 0.8250  F1 0.8419  F2 0.8050  FCP 0.6726  MAP 0.7736  MRR 0.7736  (0m01s)
+13:59:25     slopeone       MAE 0.9208  F1 0.8651  F2 0.9240  FCP 0.0472  MAP 0.7727  MRR 0.7728  (0m00s)
+13:59:25     baselineonly   MAE 0.8117  F1 0.8404  F2 0.8015  FCP 0.6873  MAP 0.7738  MRR 0.7738  (0m00s)
+13:59:26     knn            MAE 0.8116  F1 0.8403  F2 0.8014  FCP 0.6873  MAP 0.7738  MRR 0.7738  (0m00s)
+13:59:26 [10/25] r1_f4 done in 1m01s | elapsed 8m51s | ETA 13m17s
+13:59:26 [11/25] r2_f0  train=64193 val=648 test=16211
+13:59:41     ours           MAE 0.8842  F1 0.8421  F2 0.8101  FCP 0.6489  MAP 0.7727  MRR 0.7727  (0m16s)
+                   criteria MAE mean 1.2601 | net1 best epoch 1/6 | net2 best epoch 40/45 | net2 on true criteria MAE 0.2696
+14:00:17     single_dnn     MAE 0.7899  F1 0.8608  F2 0.8515  FCP 0.6865  MAP 0.7730  MRR 0.7730  (0m36s)
+14:00:18     svd            MAE 0.8082  F1 0.8409  F2 0.8028  FCP 0.6740  MAP 0.7729  MRR 0.7729  (0m01s)
+14:00:19     svdpp          MAE 0.8248  F1 0.8405  F2 0.8024  FCP 0.6897  MAP 0.7729  MRR 0.7729  (0m01s)
+14:00:19     slopeone       MAE 0.9165  F1 0.8654  F2 0.9255  FCP 0.0282  MAP 0.7718  MRR 0.7718  (0m00s)
+14:00:19     baselineonly   MAE 0.8123  F1 0.8412  F2 0.8030  FCP 0.7116  MAP 0.7730  MRR 0.7730  (0m00s)
+14:00:20     knn            MAE 0.8124  F1 0.8409  F2 0.8027  FCP 0.7085  MAP 0.7730  MRR 0.7730  (0m00s)
+14:00:20 [11/25] r2_f0 done in 0m54s | elapsed 9m45s | ETA 12m25s
+14:00:20 [12/25] r2_f1  train=64193 val=648 test=16211
+14:00:32     ours           MAE 0.7686  F1 0.8664  F2 0.8605  FCP 0.6814  MAP 0.7775  MRR 0.7775  (0m13s)
+                   criteria MAE mean 0.7811 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2712
+14:01:07     single_dnn     MAE 0.7995  F1 0.8713  F2 0.8776  FCP 0.7035  MAP 0.7773  MRR 0.7774  (0m35s)
+14:01:08     svd            MAE 0.8060  F1 0.8365  F2 0.7942  FCP 0.7098  MAP 0.7775  MRR 0.7776  (0m01s)
+14:01:08     svdpp          MAE 0.8200  F1 0.8382  F2 0.7991  FCP 0.7035  MAP 0.7774  MRR 0.7775  (0m00s)
+14:01:09     slopeone       MAE 0.9138  F1 0.8666  F2 0.9251  FCP 0.0442  MAP 0.7759  MRR 0.7759  (0m00s)
+14:01:09     baselineonly   MAE 0.8095  F1 0.8379  F2 0.7965  FCP 0.7129  MAP 0.7775  MRR 0.7776  (0m00s)
+14:01:09     knn            MAE 0.8096  F1 0.8379  F2 0.7964  FCP 0.7129  MAP 0.7775  MRR 0.7776  (0m00s)
+14:01:09 [12/25] r2_f1 done in 0m49s | elapsed 10m35s | ETA 11m27s
+14:01:09 [13/25] r2_f2  train=64194 val=648 test=16210
+14:01:23     ours           MAE 0.7521  F1 0.8583  F2 0.8445  FCP 0.6471  MAP 0.7743  MRR 0.7743  (0m14s)
+                   criteria MAE mean 0.7749 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2643
+14:02:00     single_dnn     MAE 0.7891  F1 0.8637  F2 0.8598  FCP 0.6353  MAP 0.7740  MRR 0.7741  (0m37s)
+14:02:01     svd            MAE 0.8035  F1 0.8423  F2 0.8052  FCP 0.6412  MAP 0.7742  MRR 0.7743  (0m01s)
+14:02:01     svdpp          MAE 0.8213  F1 0.8447  F2 0.8091  FCP 0.6588  MAP 0.7743  MRR 0.7743  (0m00s)
+14:02:01     slopeone       MAE 0.9215  F1 0.8646  F2 0.9241  FCP 0.0471  MAP 0.7733  MRR 0.7734  (0m00s)
+14:02:02     baselineonly   MAE 0.8080  F1 0.8431  F2 0.8056  FCP 0.6588  MAP 0.7744  MRR 0.7744  (0m00s)
+14:02:02     knn            MAE 0.8082  F1 0.8430  F2 0.8055  FCP 0.6618  MAP 0.7744  MRR 0.7744  (0m00s)
+14:02:02 [13/25] r2_f2 done in 0m53s | elapsed 11m27s | ETA 10m34s
+14:02:02 [14/25] r2_f3  train=64194 val=648 test=16210
+14:02:15     ours           MAE 0.7748  F1 0.8596  F2 0.8443  FCP 0.6505  MAP 0.7816  MRR 0.7816  (0m13s)
+                   criteria MAE mean 1.1971 | net1 best epoch 1/6 | net2 best epoch 28/33 | net2 on true criteria MAE 0.2657
+14:02:50     single_dnn     MAE 0.7826  F1 0.8672  F2 0.8634  FCP 0.6699  MAP 0.7817  MRR 0.7817  (0m35s)
+14:02:50     svd            MAE 0.8080  F1 0.8370  F2 0.7932  FCP 0.6731  MAP 0.7818  MRR 0.7818  (0m01s)
+14:02:51     svdpp          MAE 0.8238  F1 0.8371  F2 0.7939  FCP 0.7055  MAP 0.7819  MRR 0.7819  (0m01s)
+14:02:51     slopeone       MAE 0.9132  F1 0.8690  F2 0.9256  FCP 0.0647  MAP 0.7803  MRR 0.7802  (0m00s)
+14:02:51     baselineonly   MAE 0.8115  F1 0.8379  F2 0.7949  FCP 0.6828  MAP 0.7818  MRR 0.7819  (0m00s)
+14:02:52     knn            MAE 0.8115  F1 0.8379  F2 0.7948  FCP 0.6828  MAP 0.7818  MRR 0.7819  (0m00s)
+14:02:52 [14/25] r2_f3 done in 0m50s | elapsed 12m17s | ETA 9m39s
+14:02:52 [15/25] r2_f4  train=64194 val=648 test=16210
+14:03:06     ours           MAE 0.8426  F1 0.8091  F2 0.7546  FCP 0.6471  MAP 0.7784  MRR 0.7784  (0m14s)
+                   criteria MAE mean 1.2623 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2784
+14:03:41     single_dnn     MAE 0.7869  F1 0.8626  F2 0.8556  FCP 0.6873  MAP 0.7784  MRR 0.7784  (0m35s)
+14:03:41     svd            MAE 0.8067  F1 0.8357  F2 0.7939  FCP 0.6749  MAP 0.7785  MRR 0.7785  (0m01s)
+14:03:42     svdpp          MAE 0.8211  F1 0.8379  F2 0.7982  FCP 0.6904  MAP 0.7786  MRR 0.7787  (0m00s)
+14:03:42     slopeone       MAE 0.9126  F1 0.8673  F2 0.9245  FCP 0.0526  MAP 0.7770  MRR 0.7770  (0m00s)
+14:03:42     baselineonly   MAE 0.8098  F1 0.8363  F2 0.7944  FCP 0.6966  MAP 0.7787  MRR 0.7787  (0m00s)
+14:03:43     knn            MAE 0.8101  F1 0.8362  F2 0.7943  FCP 0.6904  MAP 0.7786  MRR 0.7787  (0m00s)
+14:03:43 [15/25] r2_f4 done in 0m51s | elapsed 13m08s | ETA 8m45s
+14:03:43 [16/25] r3_f0  train=64193 val=648 test=16211
+14:03:55     ours           MAE 0.8484  F1 0.7897  F2 0.7227  FCP 0.6726  MAP 0.7803  MRR 0.7803  (0m13s)
+                   criteria MAE mean 1.3046 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2728
+14:04:29     single_dnn     MAE 0.7889  F1 0.8520  F2 0.8316  FCP 0.6903  MAP 0.7805  MRR 0.7805  (0m34s)
+14:04:30     svd            MAE 0.8066  F1 0.8357  F2 0.7917  FCP 0.7198  MAP 0.7807  MRR 0.7807  (0m01s)
+14:04:31     svdpp          MAE 0.8238  F1 0.8338  F2 0.7903  FCP 0.7227  MAP 0.7808  MRR 0.7808  (0m01s)
+14:04:31     slopeone       MAE 0.9116  F1 0.8695  F2 0.9269  FCP 0.0324  MAP 0.7793  MRR 0.7793  (0m00s)
+14:04:31     baselineonly   MAE 0.8093  F1 0.8372  F2 0.7939  FCP 0.7375  MAP 0.7808  MRR 0.7808  (0m00s)
+14:04:32     knn            MAE 0.8094  F1 0.8371  F2 0.7938  FCP 0.7345  MAP 0.7808  MRR 0.7808  (0m00s)
+14:04:32 [16/25] r3_f0 done in 0m49s | elapsed 13m57s | ETA 7m51s
+14:04:32 [17/25] r3_f1  train=64193 val=648 test=16211
+14:04:46     ours           MAE 0.7631  F1 0.8705  F2 0.8700  FCP 0.6622  MAP 0.7791  MRR 0.7791  (0m15s)
+                   criteria MAE mean 0.7871 | net1 best epoch 1/6 | net2 best epoch 49/50 | net2 on true criteria MAE 0.2667
+14:05:21     single_dnn     MAE 0.8052  F1 0.8761  F2 0.8865  FCP 0.6522  MAP 0.7791  MRR 0.7791  (0m35s)
+14:05:22     svd            MAE 0.8063  F1 0.8419  F2 0.8015  FCP 0.6555  MAP 0.7792  MRR 0.7792  (0m01s)
+14:05:22     svdpp          MAE 0.8233  F1 0.8416  F2 0.8026  FCP 0.6388  MAP 0.7790  MRR 0.7791  (0m00s)
+14:05:22     slopeone       MAE 0.9162  F1 0.8686  F2 0.9263  FCP 0.0602  MAP 0.7780  MRR 0.7781  (0m00s)
+14:05:22     baselineonly   MAE 0.8102  F1 0.8419  F2 0.8021  FCP 0.6656  MAP 0.7792  MRR 0.7793  (0m00s)
+14:05:23     knn            MAE 0.8105  F1 0.8419  F2 0.8020  FCP 0.6656  MAP 0.7792  MRR 0.7792  (0m00s)
+14:05:23 [17/25] r3_f1 done in 0m51s | elapsed 14m48s | ETA 6m58s
+14:05:23 [18/25] r3_f2  train=64194 val=648 test=16210
+14:05:36     ours           MAE 0.7662  F1 0.8651  F2 0.8613  FCP 0.6339  MAP 0.7724  MRR 0.7724  (0m14s)
+                   criteria MAE mean 0.7839 | net1 best epoch 1/6 | net2 best epoch 38/43 | net2 on true criteria MAE 0.2645
+14:06:12     single_dnn     MAE 0.7835  F1 0.8585  F2 0.8493  FCP 0.6875  MAP 0.7726  MRR 0.7727  (0m36s)
+14:06:13     svd            MAE 0.8023  F1 0.8390  F2 0.8001  FCP 0.6637  MAP 0.7725  MRR 0.7725  (0m01s)
+14:06:14     svdpp          MAE 0.8170  F1 0.8419  F2 0.8065  FCP 0.6548  MAP 0.7726  MRR 0.7727  (0m01s)
+14:06:14     slopeone       MAE 0.9087  F1 0.8644  F2 0.9239  FCP 0.0417  MAP 0.7713  MRR 0.7713  (0m00s)
+14:06:14     baselineonly   MAE 0.8065  F1 0.8406  F2 0.8029  FCP 0.6845  MAP 0.7726  MRR 0.7727  (0m00s)
+14:06:15     knn            MAE 0.8068  F1 0.8404  F2 0.8027  FCP 0.6815  MAP 0.7727  MRR 0.7727  (0m00s)
+14:06:15 [18/25] r3_f2 done in 0m52s | elapsed 15m40s | ETA 6m06s
+14:06:15 [19/25] r3_f3  train=64194 val=648 test=16210
+14:06:27     ours           MAE 0.7655  F1 0.8631  F2 0.8545  FCP 0.6667  MAP 0.7763  MRR 0.7764  (0m13s)
+                   criteria MAE mean 0.7960 | net1 best epoch 1/6 | net2 best epoch 23/28 | net2 on true criteria MAE 0.2657
+14:07:08     single_dnn     MAE 0.7982  F1 0.8691  F2 0.8767  FCP 0.6698  MAP 0.7762  MRR 0.7762  (0m40s)
+14:07:08     svd            MAE 0.8057  F1 0.8387  F2 0.7996  FCP 0.6883  MAP 0.7764  MRR 0.7764  (0m01s)
+14:07:09     svdpp          MAE 0.8229  F1 0.8406  F2 0.8030  FCP 0.6636  MAP 0.7761  MRR 0.7762  (0m00s)
+14:07:09     slopeone       MAE 0.9182  F1 0.8661  F2 0.9245  FCP 0.1049  MAP 0.7755  MRR 0.7755  (0m00s)
+14:07:09     baselineonly   MAE 0.8094  F1 0.8379  F2 0.7982  FCP 0.7006  MAP 0.7764  MRR 0.7765  (0m00s)
+14:07:10     knn            MAE 0.8092  F1 0.8379  F2 0.7982  FCP 0.6944  MAP 0.7764  MRR 0.7764  (0m00s)
+14:07:10 [19/25] r3_f3 done in 0m55s | elapsed 16m35s | ETA 5m14s
+14:07:10 [20/25] r3_f4  train=64194 val=648 test=16210
+14:07:27     ours           MAE 0.7733  F1 0.8698  F2 0.8727  FCP 0.6990  MAP 0.7759  MRR 0.7759  (0m17s)
+                   criteria MAE mean 0.8011 | net1 best epoch 1/6 | net2 best epoch 41/46 | net2 on true criteria MAE 0.2653
+14:08:05     single_dnn     MAE 0.7881  F1 0.8623  F2 0.8528  FCP 0.7057  MAP 0.7758  MRR 0.7759  (0m38s)
+14:08:05     svd            MAE 0.8050  F1 0.8402  F2 0.7979  FCP 0.7224  MAP 0.7760  MRR 0.7761  (0m01s)
+14:08:06     svdpp          MAE 0.8222  F1 0.8458  F2 0.8089  FCP 0.7124  MAP 0.7759  MRR 0.7760  (0m00s)
+14:08:06     slopeone       MAE 0.9156  F1 0.8652  F2 0.9234  FCP 0.0502  MAP 0.7748  MRR 0.7748  (0m01s)
+14:08:07     baselineonly   MAE 0.8100  F1 0.8398  F2 0.7976  FCP 0.7191  MAP 0.7758  MRR 0.7759  (0m00s)
+14:08:07     knn            MAE 0.8099  F1 0.8398  F2 0.7976  FCP 0.7191  MAP 0.7758  MRR 0.7759  (0m00s)
+14:08:07 [20/25] r3_f4 done in 0m57s | elapsed 17m32s | ETA 4m23s
+14:08:07 [21/25] r4_f0  train=64193 val=648 test=16211
+14:08:22     ours           MAE 0.7642  F1 0.8720  F2 0.8759  FCP 0.6545  MAP 0.7812  MRR 0.7812  (0m15s)
+                   criteria MAE mean 0.7907 | net1 best epoch 1/6 | net2 best epoch 27/32 | net2 on true criteria MAE 0.2636
+14:09:00     single_dnn     MAE 0.7958  F1 0.8442  F2 0.8117  FCP 0.6667  MAP 0.7810  MRR 0.7810  (0m38s)
+14:09:01     svd            MAE 0.8107  F1 0.8324  F2 0.7875  FCP 0.6545  MAP 0.7813  MRR 0.7813  (0m01s)
+14:09:02     svdpp          MAE 0.8230  F1 0.8366  F2 0.7935  FCP 0.6636  MAP 0.7812  MRR 0.7813  (0m01s)
+14:09:02     slopeone       MAE 0.9193  F1 0.8690  F2 0.9261  FCP 0.0667  MAP 0.7800  MRR 0.7800  (0m00s)
+14:09:02     baselineonly   MAE 0.8138  F1 0.8355  F2 0.7920  FCP 0.6576  MAP 0.7811  MRR 0.7812  (0m00s)
+14:09:03     knn            MAE 0.8140  F1 0.8355  F2 0.7921  FCP 0.6485  MAP 0.7811  MRR 0.7812  (0m00s)
+14:09:03 [21/25] r4_f0 done in 0m56s | elapsed 18m28s | ETA 3m31s
+14:09:03 [22/25] r4_f1  train=64193 val=648 test=16211
+14:09:18     ours           MAE 0.8394  F1 0.8502  F2 0.8305  FCP 0.6678  MAP 0.7761  MRR 0.7761  (0m15s)
+                   criteria MAE mean 1.2990 | net1 best epoch 1/6 | net2 best epoch 39/44 | net2 on true criteria MAE 0.2620
+14:09:53     single_dnn     MAE 0.7872  F1 0.8687  F2 0.8737  FCP 0.6287  MAP 0.7759  MRR 0.7759  (0m35s)
+14:09:54     svd            MAE 0.8067  F1 0.8324  F2 0.7899  FCP 0.6775  MAP 0.7762  MRR 0.7763  (0m01s)
+14:09:54     svdpp          MAE 0.8233  F1 0.8377  F2 0.7993  FCP 0.7003  MAP 0.7763  MRR 0.7763  (0m00s)
+14:09:55     slopeone       MAE 0.9157  F1 0.8671  F2 0.9262  FCP 0.0391  MAP 0.7753  MRR 0.7753  (0m00s)
+14:09:55     baselineonly   MAE 0.8099  F1 0.8386  F2 0.7998  FCP 0.7036  MAP 0.7763  MRR 0.7763  (0m00s)
+14:09:55     knn            MAE 0.8098  F1 0.8385  F2 0.7996  FCP 0.7003  MAP 0.7762  MRR 0.7763  (0m00s)
+14:09:55 [22/25] r4_f1 done in 0m53s | elapsed 19m21s | ETA 2m38s
+14:09:55 [23/25] r4_f2  train=64194 val=648 test=16210
+14:10:14     ours           MAE 0.7825  F1 0.8749  F2 0.8829  FCP 0.6119  MAP 0.7762  MRR 0.7762  (0m18s)
+                   criteria MAE mean 0.7862 | net1 best epoch 1/6 | net2 best epoch 34/39 | net2 on true criteria MAE 0.2670
+14:10:49     single_dnn     MAE 0.7971  F1 0.8417  F2 0.8109  FCP 0.6388  MAP 0.7763  MRR 0.7764  (0m35s)
+14:10:49     svd            MAE 0.8035  F1 0.8420  F2 0.8025  FCP 0.6199  MAP 0.7762  MRR 0.7762  (0m01s)
+14:10:50     svdpp          MAE 0.8204  F1 0.8425  F2 0.8044  FCP 0.6119  MAP 0.7763  MRR 0.7764  (0m00s)
+14:10:50     slopeone       MAE 0.9120  F1 0.8669  F2 0.9257  FCP 0.0539  MAP 0.7753  MRR 0.7753  (0m00s)
+14:10:50     baselineonly   MAE 0.8076  F1 0.8431  F2 0.8045  FCP 0.6280  MAP 0.7762  MRR 0.7763  (0m00s)
+14:10:51     knn            MAE 0.8074  F1 0.8432  F2 0.8045  FCP 0.6253  MAP 0.7762  MRR 0.7763  (0m00s)
+14:10:51 [23/25] r4_f2 done in 0m55s | elapsed 20m16s | ETA 1m46s
+14:10:51 [24/25] r4_f3  train=64194 val=648 test=16210
+14:11:04     ours           MAE 0.8858  F1 0.7971  F2 0.7335  FCP 0.6847  MAP 0.7768  MRR 0.7768  (0m14s)
+                   criteria MAE mean 1.2609 | net1 best epoch 1/6 | net2 best epoch 27/32 | net2 on true criteria MAE 0.2654
+14:11:39     single_dnn     MAE 4.0744  F1 0.3626  F2 0.2623  FCP 0.0000  MAP 0.7756  MRR 0.7757  (0m34s)
+14:11:39     svd            MAE 0.8080  F1 0.8371  F2 0.7958  FCP 0.6877  MAP 0.7771  MRR 0.7771  (0m01s)
+14:11:40     svdpp          MAE 0.8230  F1 0.8381  F2 0.7981  FCP 0.6727  MAP 0.7769  MRR 0.7769  (0m00s)
+14:11:40     slopeone       MAE 0.9175  F1 0.8656  F2 0.9234  FCP 0.0480  MAP 0.7757  MRR 0.7758  (0m00s)
+14:11:40     baselineonly   MAE 0.8115  F1 0.8390  F2 0.7992  FCP 0.6997  MAP 0.7771  MRR 0.7771  (0m00s)
+14:11:41     knn            MAE 0.8113  F1 0.8388  F2 0.7989  FCP 0.7027  MAP 0.7771  MRR 0.7771  (0m00s)
+14:11:41 [24/25] r4_f3 done in 0m50s | elapsed 21m06s | ETA 0m53s
+14:11:41 [25/25] r4_f4  train=64194 val=648 test=16210
+14:11:53     ours           MAE 0.7799  F1 0.8708  F2 0.8742  FCP 0.6447  MAP 0.7744  MRR 0.7745  (0m12s)
+                   criteria MAE mean 0.7841 | net1 best epoch 1/6 | net2 best epoch 22/27 | net2 on true criteria MAE 0.2903
+14:12:28     single_dnn     MAE 0.7862  F1 0.8587  F2 0.8463  FCP 0.6908  MAP 0.7746  MRR 0.7746  (0m35s)
+14:12:28     svd            MAE 0.8025  F1 0.8407  F2 0.8007  FCP 0.7105  MAP 0.7748  MRR 0.7748  (0m01s)
+14:12:29     svdpp          MAE 0.8204  F1 0.8437  F2 0.8063  FCP 0.6875  MAP 0.7746  MRR 0.7746  (0m00s)
+14:12:29     slopeone       MAE 0.9157  F1 0.8648  F2 0.9240  FCP 0.0461  MAP 0.7735  MRR 0.7736  (0m01s)
+14:12:30     baselineonly   MAE 0.8069  F1 0.8416  F2 0.8021  FCP 0.7171  MAP 0.7748  MRR 0.7748  (0m00s)
+14:12:30     knn            MAE 0.8069  F1 0.8416  F2 0.8021  FCP 0.7171  MAP 0.7748  MRR 0.7748  (0m00s)
+14:12:30 [25/25] r4_f4 done in 0m49s | elapsed 21m55s | ETA 0m00s
+14:12:30 training finished in 21m55s
+14:12:35 wrote results/table5.csv, results/table6.csv, results/table6_paper_vs_ours.md
+
+# Table 6: paper vs ours
+
+Settings: 5 repeat(s) x 5-fold CV, max 50 epochs, early stopping patience 5 on a 1% validation split, K=10, relevant = true overall >= 4, top-K mode `surprise`. Mean ± sample std over all (repeat, fold) runs.
+
+## Our model (chained criteria DNN -> overall DNN)
+
+| Metric | Paper | Ours | Ours - Paper |
+|---|---:|---:|---:|
+| MAE | 0.7552 ± 0.0050 | 0.8591 ± 0.3114 | +0.1039 |
+| F1 | 0.8769 ± 0.0043 | 0.8337 ± 0.1016 | -0.0432 |
+| F2 | 0.9295 ± 0.0014 | 0.8153 ± 0.1252 | -0.1142 |
+| FCP | 0.5126 ± 0.0160 | 0.6560 ± 0.0210 | +0.1434 |
+| MAP | 0.4643 ± 0.0072 | 0.7768 ± 0.0029 | +0.3125 |
+| MRR | 0.7664 ± 0.0039 | 0.7768 ± 0.0029 | +0.0104 |
+
+## All methods, ours (paper in brackets)
+
+| Metric | Ours (DMCCF) | Single DNN | SVD | SVD++ | SlopeOne | Baseline estimates | KNN with baseline |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| MAE | 0.8591 ± 0.3114 (0.7552) | 1.0539 ± 0.9081 (0.7855) | 0.8059 ± 0.0034 (0.8071) | 0.8220 ± 0.0032 (0.8222) | 0.9151 ± 0.0042 (0.9160) | 0.8097 ± 0.0030 (0.8094) | 0.8098 ± 0.0030 (0.8115) |
+| F1 | 0.8337 ± 0.1016 (0.8769) | 0.8200 ± 0.1380 (0.8572) | 0.8381 ± 0.0029 (0.8370) | 0.8398 ± 0.0028 (0.8390) | 0.8667 ± 0.0017 (0.8666) | 0.8394 ± 0.0022 (0.8391) | 0.8393 ± 0.0022 (0.8388) |
+| F2 | 0.8153 ± 0.1252 (0.9295) | 0.8034 ± 0.1642 (0.9176) | 0.7970 ± 0.0045 (0.7951) | 0.8007 ± 0.0048 (0.7991) | 0.9251 ± 0.0011 (0.9248) | 0.7990 ± 0.0037 (0.7986) | 0.7989 ± 0.0037 (0.7984) |
+| FCP | 0.6560 ± 0.0210 (0.5126) | 0.6181 ± 0.1873 (0.4957) | 0.6817 ± 0.0282 (0.5024) | 0.6798 ± 0.0289 (0.5092) | 0.0505 ± 0.0163 (0.5096) | 0.6923 ± 0.0293 (0.5025) | 0.6904 ± 0.0289 (0.5097) |
+| MAP | 0.7768 ± 0.0029 (0.4643) | 0.7768 ± 0.0029 (0.4481) | 0.7770 ± 0.0029 (0.3935) | 0.7770 ± 0.0029 (0.3483) | 0.7758 ± 0.0028 (0.3006) | 0.7770 ± 0.0029 (0.3881) | 0.7770 ± 0.0029 (0.3865) |
+| MRR | 0.7768 ± 0.0029 (0.7664) | 0.7768 ± 0.0029 (0.7244) | 0.7770 ± 0.0029 (0.7272) | 0.7770 ± 0.0029 (0.7513) | 0.7758 ± 0.0028 (0.7502) | 0.7770 ± 0.0029 (0.7374) | 0.7770 ± 0.0029 (0.7360) |
+| Precision | 0.8881 ± 0.0325 | 0.8865 ± 0.0364 | 0.9170 ± 0.0028 | 0.9141 ± 0.0033 | 0.7842 ± 0.0028 | 0.9166 ± 0.0028 | 0.9166 ± 0.0028 |
+| Recall | 0.8050 ± 0.1369 | 0.7947 ± 0.1748 | 0.7718 ± 0.0055 | 0.7766 ± 0.0061 | 0.9685 ± 0.0011 | 0.7742 ± 0.0046 | 0.7741 ± 0.0046 |
+| runs | 25 | 25 | 25 | 25 | 25 | 25 | 25 |
+
+## Who wins (ours vs best baseline)
+
+| Metric | Best baseline | Ours | Ours better? |
+|---|---|---:|:---:|
+| MAE | SVD 0.8059 | 0.8591 | no |
+| F1 | SlopeOne 0.8667 | 0.8337 | no |
+| F2 | SlopeOne 0.9251 | 0.8153 | no |
+| FCP | Baseline estimates 0.6923 | 0.6560 | no |
+| MAP | Baseline estimates 0.7770 | 0.7768 | no |
+| MRR | Baseline estimates 0.7770 | 0.7768 | no |
+
+## Table 5: criteria DNN per-criterion MAE
+
+| Criterion | Paper | Ours | Ours - Paper |
+|---|---:|---:|---:|
+| Value | 0.8195 ± 0.0082 | 0.9767 ± 0.6334 | +0.1572 |
+| Rooms | 0.7612 ± 0.0082 | 1.1878 ± 1.0717 | +0.4266 |
+| Location | 0.6581 ± 0.0077 | 0.8332 ± 0.7292 | +0.1751 |
+| Cleanliness | 0.6324 ± 0.0112 | 0.8236 ± 0.7235 | +0.1912 |
+| Check in / front desk | 0.7582 ± 0.0143 | 0.7927 ± 0.0104 | +0.0345 |
+| Service | 0.7401 ± 0.0103 | 1.0497 ± 0.9307 | +0.3096 |
+| Business service | 0.8774 ± 0.0053 | 1.0238 ± 0.5799 | +0.1464 |
+| Mean | 0.7495 ± 0.0073 | 0.9554 ± 0.2318 | +0.2059 |
+
+## Diagnostics (ours)
+
+- Overall DNN applied to the *true* test criteria: MAE 0.2692 ± 0.0093 (lower bound for the chained model if net 1 were perfect).
+- Best epoch chosen by early stopping: criteria DNN 1.0 (range 1-1), overall DNN 32.3 (range 14-49).
+
+## Notes on definitions
+
+- The paper does not state K, the relevance threshold, or what counts as 'recommended'. See `metrics.py` for the definitions used here; `--topk-mode plain` is the alternative.
+- MAP@K and MRR@K: most test users have a single test item, so with eq. 19 as written AP equals RR for them and MAP is close to MRR. The paper's much lower MAP implies an unstated variant.
+- FCP counts prediction ties as discordant (eq. 18), so methods that predict a constant for unseen users (e.g. SlopeOne) get a very low FCP.
+- KNN with baseline is item-based (`pearson_baseline`); user-based would need a ~40 GB similarity matrix.
+- Surprise baselines train on the full 80% training split; the DNNs hold out 1% of it for early stopping.
+- Data: dedupe on (user, hotel) removes 33 repeat stays, so we have 81,052 ratings vs the paper's 81,085.
+
+14:12:50 command: train.py --rerun ours,single_dnn
+14:12:56 TensorFlow 2.20.0 | device: CPU | intra-op threads: 6 | machine: Darwin arm64
+14:12:56 data: 81052 ratings, 72119 users, 1850 items
+14:12:56 --rerun: discarded saved 'ours' results from 25 fold(s)
+14:12:56 --rerun: discarded saved 'single_dnn' results from 25 fold(s)
+14:12:56 methods: ours, single_dnn, svd, svdpp, slopeone, baselineonly, knn
+14:12:56 5 repeat(s) x 5 fold(s) = 25 fold run(s); 0 already complete, 25 to run
+14:12:56 [1/25] r0_f0  train=64193 val=648 test=16211
+14:13:09     ours           MAE 0.7518  F1 0.8717  F2 0.8723  FCP 0.6834  MAP 0.7815  MRR 0.7815  (0m12s)
+                   criteria MAE mean 0.7769 | net1 best epoch 1/6 | net2 best epoch 29/34 | net2 on true criteria MAE 0.2670 | restarts net1 0 net2 0
+14:13:42     single_dnn     MAE 0.7858  F1 0.8620  F2 0.8540  FCP 0.6865  MAP 0.7815  MRR 0.7815  (0m33s)
+14:13:42     svd            already done, skipping
+14:13:42     svdpp          already done, skipping
+14:13:42     slopeone       already done, skipping
+14:13:42     baselineonly   already done, skipping
+14:13:42     knn            already done, skipping
+14:13:42 [1/25] r0_f0 done in 0m45s | elapsed 0m45s | ETA 18m10s
+14:13:42 [2/25] r0_f1  train=64193 val=648 test=16211
+14:13:56     ours           MAE 0.7953  F1 0.8586  F2 0.8449  FCP 0.6597  MAP 0.7748  MRR 0.7749  (0m14s)
+                   criteria MAE mean 0.7841 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2844 | restarts net1 0 net2 0
+14:14:32     single_dnn     MAE 0.7984  F1 0.8475  F2 0.8264  FCP 0.6657  MAP 0.7750  MRR 0.7750  (0m37s)
+14:14:32     svd            already done, skipping
+14:14:32     svdpp          already done, skipping
+14:14:32     slopeone       already done, skipping
+14:14:32     baselineonly   already done, skipping
+14:14:32     knn            already done, skipping
+14:14:32 [2/25] r0_f1 done in 0m51s | elapsed 1m36s | ETA 18m24s
+14:14:32 [3/25] r0_f2  train=64194 val=648 test=16210
+14:14:47     ours           MAE 0.7397  F1 0.8728  F2 0.8774  FCP 0.6460  MAP 0.7776  MRR 0.7776  (0m15s)
+                   criteria MAE mean 0.7700 | net1 best epoch 1/6 | net2 best epoch 43/48 | net2 on true criteria MAE 0.2616 | restarts net1 0 net2 0
+14:15:23     single_dnn     MAE 0.7800  F1 0.8681  F2 0.8670  FCP 0.6962  MAP 0.7777  MRR 0.7777  (0m36s)
+14:15:23     svd            already done, skipping
+14:15:23     svdpp          already done, skipping
+14:15:23     slopeone       already done, skipping
+14:15:23     baselineonly   already done, skipping
+14:15:23     knn            already done, skipping
+14:15:23 [3/25] r0_f2 done in 0m51s | elapsed 2m27s | ETA 17m56s
+14:15:23 [4/25] r0_f3  train=64194 val=648 test=16210
+14:15:33     criteria DNN: dead ReLU output unit(s) [0] after attempt 1, re-initialising
+14:15:48     ours           MAE 0.7652  F1 0.8646  F2 0.8544  FCP 0.6431  MAP 0.7779  MRR 0.7780  (0m25s)
+                   criteria MAE mean 0.7867 | net1 best epoch 1/6 | net2 best epoch 45/50 | net2 on true criteria MAE 0.2646 | restarts net1 1 net2 0
+14:16:23     single_dnn     MAE 0.7836  F1 0.8558  F2 0.8387  FCP 0.6462  MAP 0.7779  MRR 0.7780  (0m36s)
+14:16:23     svd            already done, skipping
+14:16:23     svdpp          already done, skipping
+14:16:23     slopeone       already done, skipping
+14:16:23     baselineonly   already done, skipping
+14:16:23     knn            already done, skipping
+14:16:23 [4/25] r0_f3 done in 1m01s | elapsed 3m27s | ETA 18m08s
+14:16:23 [5/25] r0_f4  train=64194 val=648 test=16210
+14:16:39     ours           MAE 0.8219  F1 0.8476  F2 0.8270  FCP 0.6293  MAP 0.7728  MRR 0.7728  (0m16s)
+                   criteria MAE mean 0.8065 | net1 best epoch 1/6 | net2 best epoch 36/41 | net2 on true criteria MAE 0.2648 | restarts net1 0 net2 0
+14:17:14     single_dnn     MAE 0.8020  F1 0.8511  F2 0.8356  FCP 0.6724  MAP 0.7731  MRR 0.7731  (0m35s)
+14:17:14     svd            already done, skipping
+14:17:14     svdpp          already done, skipping
+14:17:14     slopeone       already done, skipping
+14:17:14     baselineonly   already done, skipping
+14:17:14     knn            already done, skipping
+14:17:14 [5/25] r0_f4 done in 0m51s | elapsed 4m18s | ETA 17m13s
+14:17:14 [6/25] r1_f0  train=64193 val=648 test=16211
+14:17:24     criteria DNN: dead ReLU output unit(s) [1] after attempt 1, re-initialising
+14:17:38     ours           MAE 0.7649  F1 0.8615  F2 0.8518  FCP 0.6406  MAP 0.7778  MRR 0.7778  (0m23s)
+                   criteria MAE mean 0.7893 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2651 | restarts net1 1 net2 0
+14:18:14     single DNN: dead ReLU output unit(s) [0] after attempt 1, re-initialising
+14:18:57     single_dnn     MAE 0.7843  F1 0.8611  F2 0.8530  FCP 0.6655  MAP 0.7779  MRR 0.7779  (1m19s)
+14:18:57     svd            already done, skipping
+14:18:57     svdpp          already done, skipping
+14:18:57     slopeone       already done, skipping
+14:18:57     baselineonly   already done, skipping
+14:18:57     knn            already done, skipping
+14:18:57 [6/25] r1_f0 done in 1m42s | elapsed 6m01s | ETA 19m02s
+14:18:57 [7/25] r1_f1  train=64193 val=648 test=16211
+14:19:13     ours           MAE 0.7574  F1 0.8645  F2 0.8568  FCP 0.6814  MAP 0.7796  MRR 0.7796  (0m16s)
+                   criteria MAE mean 0.7751 | net1 best epoch 1/6 | net2 best epoch 33/38 | net2 on true criteria MAE 0.2739 | restarts net1 0 net2 0
+14:19:49     single_dnn     MAE 0.7836  F1 0.8486  F2 0.8222  FCP 0.6785  MAP 0.7798  MRR 0.7798  (0m36s)
+14:19:49     svd            already done, skipping
+14:19:49     svdpp          already done, skipping
+14:19:49     slopeone       already done, skipping
+14:19:49     baselineonly   already done, skipping
+14:19:49     knn            already done, skipping
+14:19:49 [7/25] r1_f1 done in 0m52s | elapsed 6m53s | ETA 17m41s
+14:19:49 [8/25] r1_f2  train=64194 val=648 test=16210
+14:20:04     ours           MAE 0.7569  F1 0.8793  F2 0.8982  FCP 0.6598  MAP 0.7725  MRR 0.7726  (0m15s)
+                   criteria MAE mean 0.7807 | net1 best epoch 1/6 | net2 best epoch 36/41 | net2 on true criteria MAE 0.2571 | restarts net1 0 net2 0
+14:20:40     single_dnn     MAE 0.7898  F1 0.8552  F2 0.8405  FCP 0.6716  MAP 0.7727  MRR 0.7727  (0m36s)
+14:20:40     svd            already done, skipping
+14:20:40     svdpp          already done, skipping
+14:20:40     slopeone       already done, skipping
+14:20:40     baselineonly   already done, skipping
+14:20:40     knn            already done, skipping
+14:20:40 [8/25] r1_f2 done in 0m51s | elapsed 7m44s | ETA 16m26s
+14:20:40 [9/25] r1_f3  train=64194 val=648 test=16210
+14:20:50     criteria DNN: dead ReLU output unit(s) [1] after attempt 1, re-initialising
+14:21:05     ours           MAE 0.7547  F1 0.8755  F2 0.8889  FCP 0.6913  MAP 0.7795  MRR 0.7795  (0m25s)
+                   criteria MAE mean 0.7759 | net1 best epoch 1/6 | net2 best epoch 45/50 | net2 on true criteria MAE 0.2632 | restarts net1 1 net2 0
+14:21:41     single_dnn     MAE 0.8034  F1 0.8695  F2 0.8791  FCP 0.6846  MAP 0.7796  MRR 0.7796  (0m36s)
+14:21:41     svd            already done, skipping
+14:21:41     svdpp          already done, skipping
+14:21:41     slopeone       already done, skipping
+14:21:41     baselineonly   already done, skipping
+14:21:41     knn            already done, skipping
+14:21:41 [9/25] r1_f3 done in 1m01s | elapsed 8m45s | ETA 15m34s
+14:21:41 [10/25] r1_f4  train=64194 val=648 test=16210
+14:21:54     ours           MAE 0.7944  F1 0.8750  F2 0.8855  FCP 0.6519  MAP 0.7736  MRR 0.7736  (0m13s)
+                   criteria MAE mean 0.7927 | net1 best epoch 1/6 | net2 best epoch 14/19 | net2 on true criteria MAE 0.2967 | restarts net1 0 net2 0
+14:22:30     single_dnn     MAE 0.7992  F1 0.8606  F2 0.8505  FCP 0.6372  MAP 0.7734  MRR 0.7734  (0m35s)
+14:22:30     svd            already done, skipping
+14:22:30     svdpp          already done, skipping
+14:22:30     slopeone       already done, skipping
+14:22:30     baselineonly   already done, skipping
+14:22:30     knn            already done, skipping
+14:22:30 [10/25] r1_f4 done in 0m48s | elapsed 9m33s | ETA 14m20s
+14:22:30 [11/25] r2_f0  train=64193 val=648 test=16211
+14:22:39     criteria DNN: dead ReLU output unit(s) [1] after attempt 1, re-initialising
+14:22:49     criteria DNN: dead ReLU output unit(s) [2] after attempt 2, re-initialising
+14:22:58 5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x127c9d760> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+14:22:58     criteria DNN: dead ReLU output unit(s) [1] after attempt 3, re-initialising
+14:23:09 5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x127e47060> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+14:23:15     ours           MAE 0.7653  F1 0.8742  F2 0.8877  FCP 0.7085  MAP 0.7729  MRR 0.7730  (0m45s)
+                   criteria MAE mean 0.7886 | net1 best epoch 1/6 | net2 best epoch 40/45 | net2 on true criteria MAE 0.2696 | restarts net1 3 net2 0
+14:23:56     single_dnn     MAE 0.7899  F1 0.8608  F2 0.8515  FCP 0.6865  MAP 0.7730  MRR 0.7730  (0m41s)
+14:23:56     svd            already done, skipping
+14:23:56     svdpp          already done, skipping
+14:23:56     slopeone       already done, skipping
+14:23:56     baselineonly   already done, skipping
+14:23:56     knn            already done, skipping
+14:23:56 [11/25] r2_f0 done in 1m26s | elapsed 11m00s | ETA 13m59s
+14:23:56 [12/25] r2_f1  train=64193 val=648 test=16211
+14:24:15     ours           MAE 0.7686  F1 0.8664  F2 0.8605  FCP 0.6814  MAP 0.7775  MRR 0.7775  (0m19s)
+                   criteria MAE mean 0.7811 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2712 | restarts net1 0 net2 0
+14:24:57     single_dnn     MAE 0.7995  F1 0.8713  F2 0.8776  FCP 0.7035  MAP 0.7773  MRR 0.7774  (0m43s)
+14:24:57     svd            already done, skipping
+14:24:57     svdpp          already done, skipping
+14:24:57     slopeone       already done, skipping
+14:24:57     baselineonly   already done, skipping
+14:24:57     knn            already done, skipping
+14:24:57 [12/25] r2_f1 done in 1m02s | elapsed 12m01s | ETA 13m01s
+14:24:57 [13/25] r2_f2  train=64194 val=648 test=16210
+14:25:13     ours           MAE 0.7521  F1 0.8583  F2 0.8445  FCP 0.6471  MAP 0.7743  MRR 0.7743  (0m16s)
+                   criteria MAE mean 0.7749 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2643 | restarts net1 0 net2 0
+14:25:53     single_dnn     MAE 0.7891  F1 0.8637  F2 0.8598  FCP 0.6353  MAP 0.7740  MRR 0.7741  (0m40s)
+14:25:53     svd            already done, skipping
+14:25:53     svdpp          already done, skipping
+14:25:53     slopeone       already done, skipping
+14:25:53     baselineonly   already done, skipping
+14:25:53     knn            already done, skipping
+14:25:53 [13/25] r2_f2 done in 0m56s | elapsed 12m57s | ETA 11m57s
+14:25:53 [14/25] r2_f3  train=64194 val=648 test=16210
+14:26:03     criteria DNN: dead ReLU output unit(s) [6] after attempt 1, re-initialising
+14:26:19     ours           MAE 0.7604  F1 0.8613  F2 0.8485  FCP 0.6375  MAP 0.7816  MRR 0.7817  (0m26s)
+                   criteria MAE mean 0.7842 | net1 best epoch 1/6 | net2 best epoch 28/33 | net2 on true criteria MAE 0.2657 | restarts net1 1 net2 0
+14:26:55     single_dnn     MAE 0.7826  F1 0.8672  F2 0.8634  FCP 0.6699  MAP 0.7817  MRR 0.7817  (0m36s)
+14:26:55     svd            already done, skipping
+14:26:55     svdpp          already done, skipping
+14:26:55     slopeone       already done, skipping
+14:26:55     baselineonly   already done, skipping
+14:26:55     knn            already done, skipping
+14:26:55 [14/25] r2_f3 done in 1m02s | elapsed 13m59s | ETA 10m59s
+14:26:55 [15/25] r2_f4  train=64194 val=648 test=16210
+14:27:04     criteria DNN: dead ReLU output unit(s) [5] after attempt 1, re-initialising
+14:27:18     ours           MAE 0.7826  F1 0.8557  F2 0.8392  FCP 0.6161  MAP 0.7780  MRR 0.7780  (0m23s)
+                   criteria MAE mean 0.7811 | net1 best epoch 1/6 | net2 best epoch 32/37 | net2 on true criteria MAE 0.2784 | restarts net1 1 net2 0
+14:28:02     single_dnn     MAE 0.7869  F1 0.8626  F2 0.8556  FCP 0.6873  MAP 0.7784  MRR 0.7784  (0m44s)
+14:28:02     svd            already done, skipping
+14:28:02     svdpp          already done, skipping
+14:28:02     slopeone       already done, skipping
+14:28:02     baselineonly   already done, skipping
+14:28:02     knn            already done, skipping
+14:28:02 [15/25] r2_f4 done in 1m06s | elapsed 15m05s | ETA 10m04s
+14:28:02 [16/25] r3_f0  train=64193 val=648 test=16211
+14:28:12     criteria DNN: dead ReLU output unit(s) [2] after attempt 1, re-initialising
+14:28:25     ours           MAE 0.7704  F1 0.8734  F2 0.8744  FCP 0.6814  MAP 0.7804  MRR 0.7805  (0m23s)
+                   criteria MAE mean 0.7834 | net1 best epoch 1/6 | net2 best epoch 21/26 | net2 on true criteria MAE 0.2728 | restarts net1 1 net2 0
+14:29:01     single_dnn     MAE 0.7889  F1 0.8520  F2 0.8316  FCP 0.6903  MAP 0.7805  MRR 0.7805  (0m36s)
+14:29:01     svd            already done, skipping
+14:29:01     svdpp          already done, skipping
+14:29:01     slopeone       already done, skipping
+14:29:01     baselineonly   already done, skipping
+14:29:01     knn            already done, skipping
+14:29:01 [16/25] r3_f0 done in 0m59s | elapsed 16m05s | ETA 9m03s
+14:29:01 [17/25] r3_f1  train=64193 val=648 test=16211
+14:29:15     ours           MAE 0.7631  F1 0.8705  F2 0.8700  FCP 0.6622  MAP 0.7791  MRR 0.7791  (0m14s)
+                   criteria MAE mean 0.7871 | net1 best epoch 1/6 | net2 best epoch 49/50 | net2 on true criteria MAE 0.2667 | restarts net1 0 net2 0
+14:29:47     single_dnn     MAE 0.8052  F1 0.8761  F2 0.8865  FCP 0.6522  MAP 0.7791  MRR 0.7791  (0m32s)
+14:29:47     svd            already done, skipping
+14:29:47     svdpp          already done, skipping
+14:29:47     slopeone       already done, skipping
+14:29:47     baselineonly   already done, skipping
+14:29:47     knn            already done, skipping
+14:29:47 [17/25] r3_f1 done in 0m47s | elapsed 16m51s | ETA 7m56s
+14:29:47 [18/25] r3_f2  train=64194 val=648 test=16210
+14:30:01     ours           MAE 0.7662  F1 0.8651  F2 0.8613  FCP 0.6339  MAP 0.7724  MRR 0.7724  (0m14s)
+                   criteria MAE mean 0.7839 | net1 best epoch 1/6 | net2 best epoch 38/43 | net2 on true criteria MAE 0.2645 | restarts net1 0 net2 0
+14:30:33     single_dnn     MAE 0.7835  F1 0.8585  F2 0.8493  FCP 0.6875  MAP 0.7726  MRR 0.7727  (0m32s)
+14:30:33     svd            already done, skipping
+14:30:33     svdpp          already done, skipping
+14:30:33     slopeone       already done, skipping
+14:30:33     baselineonly   already done, skipping
+14:30:33     knn            already done, skipping
+14:30:33 [18/25] r3_f2 done in 0m46s | elapsed 17m37s | ETA 6m51s
+14:30:33 [19/25] r3_f3  train=64194 val=648 test=16210
+14:30:45     ours           MAE 0.7655  F1 0.8631  F2 0.8545  FCP 0.6667  MAP 0.7763  MRR 0.7764  (0m12s)
+                   criteria MAE mean 0.7960 | net1 best epoch 1/6 | net2 best epoch 23/28 | net2 on true criteria MAE 0.2657 | restarts net1 0 net2 0
+14:31:19     single_dnn     MAE 0.7982  F1 0.8691  F2 0.8767  FCP 0.6698  MAP 0.7762  MRR 0.7762  (0m34s)
+14:31:19     svd            already done, skipping
+14:31:19     svdpp          already done, skipping
+14:31:19     slopeone       already done, skipping
+14:31:19     baselineonly   already done, skipping
+14:31:19     knn            already done, skipping
+14:31:19 [19/25] r3_f3 done in 0m46s | elapsed 18m23s | ETA 5m48s
+14:31:19 [20/25] r3_f4  train=64194 val=648 test=16210
+14:31:34     ours           MAE 0.7733  F1 0.8698  F2 0.8727  FCP 0.6990  MAP 0.7759  MRR 0.7759  (0m15s)
+                   criteria MAE mean 0.8011 | net1 best epoch 1/6 | net2 best epoch 41/46 | net2 on true criteria MAE 0.2653 | restarts net1 0 net2 0
+14:32:08     single_dnn     MAE 0.7881  F1 0.8623  F2 0.8528  FCP 0.7057  MAP 0.7758  MRR 0.7759  (0m34s)
+14:32:08     svd            already done, skipping
+14:32:08     svdpp          already done, skipping
+14:32:08     slopeone       already done, skipping
+14:32:08     baselineonly   already done, skipping
+14:32:08     knn            already done, skipping
+14:32:08 [20/25] r3_f4 done in 0m49s | elapsed 19m11s | ETA 4m48s
+14:32:08 [21/25] r4_f0  train=64193 val=648 test=16211
+14:32:21     ours           MAE 0.7642  F1 0.8720  F2 0.8759  FCP 0.6545  MAP 0.7812  MRR 0.7812  (0m13s)
+                   criteria MAE mean 0.7907 | net1 best epoch 1/6 | net2 best epoch 27/32 | net2 on true criteria MAE 0.2636 | restarts net1 0 net2 0
+14:32:56     single_dnn     MAE 0.7958  F1 0.8442  F2 0.8117  FCP 0.6667  MAP 0.7810  MRR 0.7810  (0m35s)
+14:32:56     svd            already done, skipping
+14:32:56     svdpp          already done, skipping
+14:32:56     slopeone       already done, skipping
+14:32:56     baselineonly   already done, skipping
+14:32:56     knn            already done, skipping
+14:32:56 [21/25] r4_f0 done in 0m49s | elapsed 20m00s | ETA 3m49s
+14:32:56 [22/25] r4_f1  train=64193 val=648 test=16211
+14:33:06     criteria DNN: dead ReLU output unit(s) [3] after attempt 1, re-initialising
+14:33:21     ours           MAE 0.7593  F1 0.8722  F2 0.8829  FCP 0.6417  MAP 0.7760  MRR 0.7761  (0m24s)
+                   criteria MAE mean 0.7837 | net1 best epoch 1/6 | net2 best epoch 39/44 | net2 on true criteria MAE 0.2620 | restarts net1 1 net2 0
+14:33:57     single_dnn     MAE 0.7872  F1 0.8687  F2 0.8737  FCP 0.6287  MAP 0.7759  MRR 0.7759  (0m36s)
+14:33:57     svd            already done, skipping
+14:33:57     svdpp          already done, skipping
+14:33:57     slopeone       already done, skipping
+14:33:57     baselineonly   already done, skipping
+14:33:57     knn            already done, skipping
+14:33:57 [22/25] r4_f1 done in 1m01s | elapsed 21m01s | ETA 2m52s
+14:33:57 [23/25] r4_f2  train=64194 val=648 test=16210
+14:34:13     ours           MAE 0.7825  F1 0.8749  F2 0.8829  FCP 0.6119  MAP 0.7762  MRR 0.7762  (0m16s)
+                   criteria MAE mean 0.7862 | net1 best epoch 1/6 | net2 best epoch 34/39 | net2 on true criteria MAE 0.2670 | restarts net1 0 net2 0
+14:34:48     single_dnn     MAE 0.7971  F1 0.8417  F2 0.8109  FCP 0.6388  MAP 0.7763  MRR 0.7764  (0m35s)
+14:34:48     svd            already done, skipping
+14:34:48     svdpp          already done, skipping
+14:34:48     slopeone       already done, skipping
+14:34:48     baselineonly   already done, skipping
+14:34:48     knn            already done, skipping
+14:34:48 [23/25] r4_f2 done in 0m51s | elapsed 21m52s | ETA 1m54s
+14:34:48 [24/25] r4_f3  train=64194 val=648 test=16210
+14:34:58     criteria DNN: dead ReLU output unit(s) [5] after attempt 1, re-initialising
+14:35:10     ours           MAE 0.7767  F1 0.8721  F2 0.8795  FCP 0.6697  MAP 0.7766  MRR 0.7766  (0m23s)
+                   criteria MAE mean 0.7846 | net1 best epoch 1/6 | net2 best epoch 27/32 | net2 on true criteria MAE 0.2654 | restarts net1 1 net2 0
+14:35:46     single DNN: dead ReLU output unit(s) [0] after attempt 1, re-initialising
+14:36:19     single_dnn     MAE 0.7952  F1 0.8625  F2 0.8598  FCP 0.6396  MAP 0.7768  MRR 0.7768  (1m09s)
+14:36:19     svd            already done, skipping
+14:36:19     svdpp          already done, skipping
+14:36:19     slopeone       already done, skipping
+14:36:19     baselineonly   already done, skipping
+14:36:19     knn            already done, skipping
+14:36:19 [24/25] r4_f3 done in 1m32s | elapsed 23m23s | ETA 0m58s
+14:36:19 [25/25] r4_f4  train=64194 val=648 test=16210
+14:36:33     ours           MAE 0.7799  F1 0.8708  F2 0.8742  FCP 0.6447  MAP 0.7744  MRR 0.7745  (0m14s)
+                   criteria MAE mean 0.7841 | net1 best epoch 1/6 | net2 best epoch 22/27 | net2 on true criteria MAE 0.2903 | restarts net1 0 net2 0
+14:37:10     single_dnn     MAE 0.7862  F1 0.8587  F2 0.8463  FCP 0.6908  MAP 0.7746  MRR 0.7746  (0m37s)
+14:37:10     svd            already done, skipping
+14:37:10     svdpp          already done, skipping
+14:37:10     slopeone       already done, skipping
+14:37:10     baselineonly   already done, skipping
+14:37:10     knn            already done, skipping
+14:37:10 [25/25] r4_f4 done in 0m50s | elapsed 24m14s | ETA 0m00s
+14:37:10 training finished in 24m14s
+14:37:15 wrote results/table5.csv, results/table6.csv, results/table6_paper_vs_ours.md
+
+# Table 6: paper vs ours
+
+Settings: 5 repeat(s) x 5-fold CV, max 50 epochs, early stopping patience 5 on a 1% validation split, K=10, relevant = true overall >= 4, top-K mode `surprise`. Mean ± sample std over all (repeat, fold) runs.
+
+## Our model (chained criteria DNN -> overall DNN)
+
+| Metric | Paper | Ours | Ours - Paper |
+|---|---:|---:|---:|
+| MAE | 0.7552 ± 0.0050 | 0.7693 ± 0.0170 | +0.0141 |
+| F1 | 0.8769 ± 0.0043 | 0.8676 ± 0.0075 | -0.0093 |
+| F2 | 0.9295 ± 0.0014 | 0.8666 ± 0.0179 | -0.0629 |
+| FCP | 0.5126 ± 0.0160 | 0.6577 ± 0.0249 | +0.1451 |
+| MAP | 0.4643 ± 0.0072 | 0.7768 ± 0.0029 | +0.3125 |
+| MRR | 0.7664 ± 0.0039 | 0.7768 ± 0.0029 | +0.0104 |
+
+## All methods, ours (paper in brackets)
+
+| Metric | Ours (DMCCF) | Single DNN | SVD | SVD++ | SlopeOne | Baseline estimates | KNN with baseline |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| MAE | 0.7693 ± 0.0170 (0.7552) | 0.7913 ± 0.0074 (0.7855) | 0.8059 ± 0.0034 (0.8071) | 0.8220 ± 0.0032 (0.8222) | 0.9151 ± 0.0042 (0.9160) | 0.8097 ± 0.0030 (0.8094) | 0.8098 ± 0.0030 (0.8115) |
+| F1 | 0.8676 ± 0.0075 (0.8769) | 0.8600 ± 0.0088 (0.8572) | 0.8381 ± 0.0029 (0.8370) | 0.8398 ± 0.0028 (0.8390) | 0.8667 ± 0.0017 (0.8666) | 0.8394 ± 0.0022 (0.8391) | 0.8393 ± 0.0022 (0.8388) |
+| F2 | 0.8666 ± 0.0179 (0.9295) | 0.8510 ± 0.0204 (0.9176) | 0.7970 ± 0.0045 (0.7951) | 0.8007 ± 0.0048 (0.7991) | 0.9251 ± 0.0011 (0.9248) | 0.7990 ± 0.0037 (0.7986) | 0.7989 ± 0.0037 (0.7984) |
+| FCP | 0.6577 ± 0.0249 (0.5126) | 0.6703 ± 0.0225 (0.4957) | 0.6817 ± 0.0282 (0.5024) | 0.6798 ± 0.0289 (0.5092) | 0.0505 ± 0.0163 (0.5096) | 0.6923 ± 0.0293 (0.5025) | 0.6904 ± 0.0289 (0.5097) |
+| MAP | 0.7768 ± 0.0029 (0.4643) | 0.7769 ± 0.0029 (0.4481) | 0.7770 ± 0.0029 (0.3935) | 0.7770 ± 0.0029 (0.3483) | 0.7758 ± 0.0028 (0.3006) | 0.7770 ± 0.0029 (0.3881) | 0.7770 ± 0.0029 (0.3865) |
+| MRR | 0.7768 ± 0.0029 (0.7664) | 0.7769 ± 0.0029 (0.7244) | 0.7770 ± 0.0029 (0.7272) | 0.7770 ± 0.0029 (0.7513) | 0.7758 ± 0.0028 (0.7502) | 0.7770 ± 0.0029 (0.7374) | 0.7770 ± 0.0029 (0.7360) |
+| Precision | 0.8699 ± 0.0110 | 0.8762 ± 0.0128 | 0.9170 ± 0.0028 | 0.9141 ± 0.0033 | 0.7842 ± 0.0028 | 0.9166 ± 0.0028 | 0.9166 ± 0.0028 |
+| Recall | 0.8661 ± 0.0249 | 0.8452 ± 0.0280 | 0.7718 ± 0.0055 | 0.7766 ± 0.0061 | 0.9685 ± 0.0011 | 0.7742 ± 0.0046 | 0.7741 ± 0.0046 |
+| runs | 25 | 25 | 25 | 25 | 25 | 25 | 25 |
+
+## Who wins (ours vs best baseline)
+
+| Metric | Best baseline | Ours | Ours better? |
+|---|---|---:|:---:|
+| MAE | Single DNN 0.7913 | 0.7693 | yes |
+| F1 | SlopeOne 0.8667 | 0.8676 | yes |
+| F2 | SlopeOne 0.9251 | 0.8666 | no |
+| FCP | Baseline estimates 0.6923 | 0.6577 | no |
+| MAP | Baseline estimates 0.7770 | 0.7768 | no |
+| MRR | Baseline estimates 0.7770 | 0.7768 | no |
+
+## Table 5: criteria DNN per-criterion MAE
+
+| Criterion | Paper | Ours | Ours - Paper |
+|---|---:|---:|---:|
+| Value | 0.8195 ± 0.0082 | 0.8500 ± 0.0091 | +0.0305 |
+| Rooms | 0.7612 ± 0.0082 | 0.7998 ± 0.0103 | +0.0386 |
+| Location | 0.6581 ± 0.0077 | 0.6891 ± 0.0095 | +0.0310 |
+| Cleanliness | 0.6324 ± 0.0112 | 0.6778 ± 0.0112 | +0.0454 |
+| Check in / front desk | 0.7582 ± 0.0143 | 0.7920 ± 0.0098 | +0.0338 |
+| Service | 0.7401 ± 0.0103 | 0.7799 ± 0.0099 | +0.0398 |
+| Business service | 0.8774 ± 0.0053 | 0.9074 ± 0.0047 | +0.0300 |
+| Mean | 0.7495 ± 0.0073 | 0.7851 ± 0.0082 | +0.0356 |
+
+## Diagnostics (ours)
+
+- Overall DNN applied to the *true* test criteria: MAE 0.2692 ± 0.0093 (lower bound for the chained model if net 1 were perfect).
+- Best epoch chosen by early stopping: criteria DNN 1.0 (range 1-1), overall DNN 32.3 (range 14-49).
+- Dead-ReLU-output restarts (`--max-restarts 5`): criteria DNN restarted in 9/25 runs (11 restarts total), overall DNN in 0/25 runs. The paper's ReLU output layer can kill an output unit for good; such a run is re-initialised with a new seed.
+
+## Notes on definitions
+
+- The paper does not state K, the relevance threshold, or what counts as 'recommended'. See `metrics.py` for the definitions used here; `--topk-mode plain` is the alternative.
+- MAP@K and MRR@K: most test users have a single test item, so with eq. 19 as written AP equals RR for them and MAP is close to MRR. The paper's much lower MAP implies an unstated variant.
+- FCP counts prediction ties as discordant (eq. 18), so methods that predict a constant for unseen users (e.g. SlopeOne) get a very low FCP.
+- KNN with baseline is item-based (`pearson_baseline`); user-based would need a ~40 GB similarity matrix.
+- Surprise baselines train on the full 80% training split; the DNNs hold out 1% of it for early stopping.
+- Data: dedupe on (user, hotel) removes 33 repeat stays, so we have 81,052 ratings vs the paper's 81,085.
+
